@@ -1,0 +1,10 @@
+write_log: FALSE
+over_write_log: TRUE
+rule_script: "src/R/DataInterpretationRules.R"
+rule_name: "sincefirst"
+cutoff: "0"
+method: "glm"
+covars: "treatment"
+reference: "control"
+control: "aangezuurd water"
+preventError: TRUE
