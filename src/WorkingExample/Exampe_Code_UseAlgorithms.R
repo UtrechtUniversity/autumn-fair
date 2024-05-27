@@ -26,9 +26,9 @@ lapply(
 
 # source required R scripts  ####
 # scripts should be in subfolder "src/R" 
-source("./src/R/WorkingExample/DataInterpretationRules.R")    #Data manipulation rules are pre- or user defined
-source("./src/R/WorkingExample/LocalAlgorithm.R")           #Estimation methods
-source("./src/R/WorkingExample/GlobalAlgorithm.R")
+source("./src/WorkingExample/DataInterpretationRules.R")    #Data manipulation rules are pre- or user defined
+source("./src/WorkingExample/LocalAlgorithm.R")           #Estimation methods
+source("./src/WorkingExample/GlobalAlgorithm.R")
 
 # get presaved data ####
 dataE<- readRDS("./data/dataE.RDS")
