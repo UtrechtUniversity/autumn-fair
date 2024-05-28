@@ -31,6 +31,8 @@ package.check <- lapply(
 library(meta)
 library(metafor)
 library(tidyverse)
+
+
 #combine.estimates of glm's
 combine.estimates.glm <- function(local.output,
                               select.treatment = "All",

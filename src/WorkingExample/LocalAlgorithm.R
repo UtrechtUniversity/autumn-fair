@@ -447,7 +447,7 @@ analyseTransmission<- function(inputdata,          #input data
 
 
 #run local algorithm for each data set ####
-get.local.transmission <- function(dataset,config.file =  "src/R/summerfair_config.yaml"){
+get.local.transmission <- function(dataset,config.file =  "src/summerfair_config.yaml"){
   #'@title Arrange data and perform analyses based on a configuration file 
   #'@description  This function is a wrapper around the arrangement of data and conducting the analyses. It calls on function arrangeData and run."method" based on a configuration file.
   #'@param dataset a dataset that is organized according to the Infectious Transmission ontology
@@ -469,7 +469,7 @@ get.local.transmission <- function(dataset,config.file =  "src/R/summerfair_conf
   cat("\n-------*summerfair*-----------\n","Start log at: ",  format(Sys.time(),"%Y-%m-%d %H:%M:%S"),"\n")}
    if(length(dataset)==0)stop("Empty data set cannot be analysed")
      
-  source("src/R/DataQuality.R") #run the data quality report. Location and file hard coded so this cannot be changed by user
+  source("src/WorkingExample/DataQuality.R") #run the data quality report. Location and file hard coded so this cannot be changed by user
   source(config$rule_script)#run the data interpretation rules
   rule.name <- config$rule_name
              

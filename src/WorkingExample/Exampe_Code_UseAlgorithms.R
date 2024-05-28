@@ -25,14 +25,14 @@ lapply(
 
 
 # source required R scripts  ####
-# scripts should be in subfolder "src/R" 
+# scripts should be in subfolder "src/WorkingExample" 
 source("./src/WorkingExample/DataInterpretationRules.R")    #Data manipulation rules are pre- or user defined
 source("./src/WorkingExample/LocalAlgorithm.R")           #Estimation methods
 source("./src/WorkingExample/GlobalAlgorithm.R")
 
 # get presaved data ####
-dataE<- readRDS("./data/dataE.RDS")
-dataF<- readRDS("./data/dataF.RDS")
+dataE<- readRDS("./src/WorkingExample/dataE.RDS")
+dataF<- readRDS("./src/WorkingExample/dataF.RDS")
 
 #run local algorithm for each data set ####
 rm(localE, localF)
@@ -62,10 +62,10 @@ localF<- analyseTransmission(inputdata = dataF,            #data set
 localF
 #Use input files
 localE.configfile <- get.local.transmission(dataE,
-                                            config.file =  "src/R/WorkingExample/summerfair_config_E.yaml")
+                                            config.file =  "./src/WorkingExample/summerfair_config_E.yaml")
 
 localF.configfile <- get.local.transmission(dataF,
-                                            config.file =  "src/R/WorkingExample/summerfair_config_F.yaml")
+                                            config.file =  "./src/WorkingExample/summerfair_config_F.yaml")
 
 
 #combine estimates of control group with standard meta-analysis techniques ####
