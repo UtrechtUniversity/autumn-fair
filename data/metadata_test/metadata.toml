@@ -9,8 +9,8 @@ title = "" # Title of the experiment
 experiment_id = "" # Unique experiment identifier
 pi = "" # Principal investigator
 operators = "" # List of operators (researchers performing measurements)
-start_date = "YYYY/MM/DD" # Start day of the experiment
-stop_date = "YYYY/MM/DD" # Stop day of the experiment
+start_date = 2000-01-01 # Start day of the experiment YYYY-MM-DD
+stop_date = 2000-01-01 # Stop day of the experiment YYYY-MM-DD
 experiment_description = "" # Description of the experiment
 data_access_policy = "" # Policy or guidelines for accessing and using the dataset
 
@@ -77,9 +77,7 @@ format = "HH:MM"
 
 [[events.columns]]
 name = "event_type"
-description = ```
-Type of event. It can be either measurement, inoculation, or treatment.
-```
+description = "Type of event. It can be either measurement, inoculation, or treatment."
 
 [[events.columns]]
 name = "measurement_type"
