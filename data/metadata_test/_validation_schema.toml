@@ -1,0 +1,121 @@
+[hosts]
+
+[[hosts.columns]]
+name = "host_id"
+type = "string"
+format = "AA0_00000"
+
+[[hosts.columns]]
+name = "host_groupNumber"
+type = "integer"
+
+[[hosts.columns]]
+name = "host_sex"
+type = "string"
+format = "A"
+values = ["M","F"]
+
+[[hosts.columns]]
+name = "host_age"
+type = "integer"
+
+[[hosts.columns]]
+name = "host_death"
+type = "integer"
+
+[[hosts.columns]]
+name = "host_species"
+type = "string"
+
+[[hosts.columns]]
+name = "host_breed"
+type = "string"
+
+[events]
+
+[[events.columns]]
+name = "host_id"
+type = "string"
+format = "AA0_00000"
+
+[[events.columns]]
+name = "event_day"
+type = "integer"
+unit = "day"
+
+[[events.columns]]
+name = "event_time"
+type = "string"
+format = "HH:MM"
+
+[[events.columns]]
+name = "event_type"
+type = "string"
+values = ["measurement","inoculation","treatment"]
+
+[[events.columns]]
+name = "measurement_type"
+type = "string"
+
+[[events.columns]]
+name = "measurement_quantity"
+type = "float"
+
+[[events.columns]]
+name = "measurement_unit"
+type = "string"
+
+[[events.columns]]
+name = "inoculation_type"
+type = "string"
+
+[[events.columns]]
+name = "inoculation_pathogen"
+type = "string"
+
+[[events.columns]]
+name = "inoculation_dose"
+type = "float"
+
+[[events.columns]]
+name = "inoculation_unit"
+type = "string"
+
+[[events.columns]]
+name = "treatment_type"
+type = "string"
+
+[[events.columns]]
+name = "treatment_dose"
+type = "float"
+
+[[events.columns]]
+name = "treatment_unit"
+type = "string"
+
+[environment]
+
+[[environment.columns]]
+name = "host_id"
+type = "string"
+format = "AA0_00000"
+
+[[environment.columns]]
+name = "allocation_day"
+type = "integer"
+unit = "day"
+
+[[environment.columns]]
+name = "allocation_time"
+type = "string"
+format = "HH:MM"
+
+[[environment.columns]]
+name = "environment_level"
+type = "integer"
+values = ["1","2","3"]
+
+[[environment.columns]]
+name = "environment_id"
+type = "string"
+format = "A0_A0"
