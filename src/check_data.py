@@ -17,7 +17,7 @@ def verify_col_by_section(section: str, df: pd.DataFrame, validation: dict):
         print(f"{section} not present in validation toml file")
         return
 
-    name_to_type = flatten_lists_of_dicts('name', 'type', validation[section]['columns'])
+    name_to_type = flatten_list_of_dicts('name', 'type', validation[section]['columns'])
 
     undefined = []
 
