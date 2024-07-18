@@ -64,13 +64,43 @@ def verify_col_by_section(section: str, df: pd.DataFrame, validation: dict):
 def duplicates(column_name: str, df: pd.DataFrame) -> pd.DataFrame:
     return df[df[[column_name]].duplicated()][column_name]
 
+def read_data_from_loc(folder: Path) -> list:
+    """
+    The data validation expects three csv files in folder:
+    ├── data
+    │ ├── environment.csv
+    │ ├── events.csv
+    │ └──hosts.csv
+
+    The function checks of the three files are there and returns each as a
+    pandas dataframe.
+    
+    """
+    if not folder.is_dir():
+        print(f"{folder} does not exist.")
+        return 
+    files = [x for x in folder.glob('**/*') if x.is_file()]
+    data_parts = []
+    for data_file in ["environment.csv", "events.csv", "hosts.csv"]:
+        try:
+            data_parts.append(pd.read_csv(folder.joinpath(data_file)))
+        except FileNotFoundError:
+            print(f"{folder.joinpath(data_file)} does not exist.")
+            return
 
 
-# read data and validation metadata
+
+# TODO: Goes into a commandline client
+# Step 1: Read in the validation.toml
+val_path = Path("data/metadata_test/_validation_schema.toml") # param for client
+validation = toml.load(val_path)
+
+# Step 2: read in the data folder and assert that all three csv files are there.
+data_path = Path("data") # param for client
+data_frames = read_data_from_loc(data_path)
+
+# Test functionality
 df = pd.read_csv("data/dataE.csv")
-validation = toml.load("data/metadata_test/_validation_schema.toml")
-
-
 # check if all columns are in the dataframe(s) and if their type is correct
 for section in validation:
     undefined = verify_col_by_section(section, df, validation)
