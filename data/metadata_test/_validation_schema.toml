@@ -2,8 +2,9 @@
 
 [[hosts.columns]]
 name = "host_id"
-type = "string"
+type = ["string", "int64"]
 format = "AA0_00000"
+unique = true
 
 [[hosts.columns]]
 name = "host_groupNumber"
@@ -35,7 +36,7 @@ type = "string"
 
 [[events.columns]]
 name = "host_id"
-type = "string"
+type = ["string", "int64"]
 format = "AA0_00000"
 
 [[events.columns]]
@@ -97,7 +98,7 @@ type = "string"
 
 [[environment.columns]]
 name = "host_id"
-type = "string"
+type = ["string", "int64"]
 format = "AA0_00000"
 
 [[environment.columns]]
