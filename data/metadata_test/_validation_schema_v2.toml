@@ -32,12 +32,21 @@ treatment_dose.type = "float"
 treatment_unit.type = "string"
 
 [environment]
-host_id.type = "string"
-host_id.format = "AA0_00000"
-allocation_day.type = "integer"
-allocation_time.type = "string"
-allocation_time.format = "HH:MM"
 environment_level.type = "integer"
 environment_level.values = ["1","2","3"]
 environment_id.type = "string"
 environment_id.format = "A0_A0"
+
+[environment_events]
+host_id.type = "string"
+host_id.format = "AA0_00000"
+environment_id.type = "string"
+environment_id.format = "A0_A0"
+event_type.type = "string"
+event_type.values = ["measurement","allocation"]
+event_day.type = "integer"
+event_time.type = "string"
+event_time.format = "HH:MM"
+measurement_type.type = "string"
+measurement_quantity.type = "float"
+measurement_unit.type = "string"

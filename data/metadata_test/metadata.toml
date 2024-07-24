@@ -9,8 +9,8 @@ title = "" # Title of the experiment
 experiment_id = "" # Unique experiment identifier
 pi = "" # Principal investigator
 operators = "" # List of operators (researchers performing measurements)
-start_date = 2000-01-01 # Start day of the experiment YYYY-MM-DD
-stop_date = 2000-01-01 # Stop day of the experiment YYYY-MM-DD
+start_date = "YYYY/MM/DD" # Start day of the experiment
+stop_date = "YYYY/MM/DD" # Stop day of the experiment
 experiment_description = "" # Description of the experiment
 data_access_policy = "" # Policy or guidelines for accessing and using the dataset
 
@@ -23,31 +23,41 @@ data_access_policy = "" # Policy or guidelines for accessing and using the datas
 # hosts csv file
 # ----------------------------------------------------------------------
 [hosts]
+
 [[hosts.columns]]
 name = "host_id"
 description = "Host unique identifier"
+type = "string"
+format = "AA0_00000"
 
 [[hosts.columns]]
 name = "host_groupNumber"
 description = "Integer indicating the group of the host"
+type = "integer"
 
 [[hosts.columns]]
 name = "host_sex"
 description = "Sex of the host (F/M)"
+type = "string"
+format = "A"
+values = ["M","F"]
 
 [[hosts.columns]]
 name = "host_age"
 description = "Age of the host at the beginning of the experiment."
 unit = "day"
+type = "integer"
 
 [[hosts.columns]]
 name = "host_death"
 description = "Date of death of the host from the beginning of the experiment."
 unit = "day"
+type = "integer"
 
 [[hosts.columns]]
 name = "host_species"
 description = "Species of the host"
+type = "string"
 
 [[hosts.columns]]
 name = "host_breed"
@@ -57,67 +67,88 @@ type = "string"
 
 # Events csv file
 # ----------------------------------------------------------------------
-[events]
+[host_events]
 
-[[events.columns]]
+[[host_events.columns]]
 name = "host_id"
 description = "Host unique identifier"
+type = "string"
+format = "AA0_00000"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "event_day"
 description = '''
 Date of the event in days after the beginning of the experiment
 '''
 unit = "day"
+type = "integer"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "event_time"
 description = "Time of the event_time (local time)"
 format = "HH:MM"
+type = "string"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "event_type"
 description = "Type of event. It can be either measurement, inoculation, or treatment."
+type = "string"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "measurement_type"
 description = "Measurement type"
+values = ["measurement","inoculation","treatment"]
 
-[[events.columns]]
+[[host_events.columns]]
 name = "measurement_quantity"
 description = "Measured quantity"
+type = "float"
 
-[[events.columns]]
+[[host_events.columns]]
+name = "measurement_outcome"
+description = "Measurement outcome of a certain measurement type. There are only two possible outcomes: positive (true) and negative (false)"
+type = "string"
+values = ["true","false"]
+
+[[host_events.columns]]
 name = "measurement_unit"
 description = "Measured quantity unit"
+type = "string"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "inoculation_type"
 description = "Inoculation type"
+type = "string"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "inoculation_pathogen"
 description = "Inoculation pathogen"
+type = "string"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "inoculation_dose"
 description = "Amount of inoculated pathogen"
+type = "float"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "inoculation_unit"
 description = "Inoculation dose unit"
+type = "string"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "treatment_type"
 description = "Treatment type"
+type = "string"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "treatment_dose"
 description = "Amount of a substance administrated in the treatment"
+type = "float"
 
-[[events.columns]]
+[[host_events.columns]]
 name = "treatment_unit"
 description = "Treatment dose unit"
+type = "string"
 # ----------------------------------------------------------------------
 
 # Environment csv File
@@ -125,30 +156,66 @@ description = "Treatment dose unit"
 [environment]
 
 [[environment.columns]]
-name = "host_id"
-description = "Host unique identifier"
-
-[[environment.columns]]
-name = "allocation_day"
-description = '''
-Date of allocation of the host in the environment measured from the beginning
-of the experiment
-'''
-unit = "day"
-
-[[environment.columns]]
-name = "allocation_time"
-description = '''
-Time of the allocation of the animal in the housing (local time).
-'''
-
-[[environment.columns]]
 name = "environment_level"
 description = "Environment level"
+type = "integer"
+values = ["1","2","3"]
 
 [[environment.columns]]
 name = "environment_id"
 description = "Environment unique identifier"
+type = "string"
+format = "A0_A0"
 # ----------------------------------------------------------------------
+
+# Environment csv File
+# ----------------------------------------------------------------------
+[environment_events]
+
+[[environment_events.columns]]
+name = "host_id"
+description = "Host unique identifier"
+type = "string"
+
+[[environment_events.columns]]
+name = "environment_id"
+description = "Environment unique identifier"
+type = "string"
+format = "A0_A0"
+
+[[environment_events.columns]]
+name = "event_day"
+description = '''
+Date of the event in days after the beginning of the experiment
+'''
+unit = "day"
+type = "integer"
+
+[[environment_events.columns]]
+name = "event_time"
+description = "Time of the event_time (local time)"
+format = "HH:MM"
+type = "string"
+
+[[environment_events.columns]]
+name = "event_type"
+description = "Type of event. It can be either measurement or allocation."
+type = "string"
+values = ["measurement","allocation"]
+
+[[environment_events.columns]]
+name = "measurement_type"
+description = "Measurement type"
+type = "string"
+
+[[environment_events.columns]]
+name = "measurement_quantity"
+description = "Measured quantity"
+type = "float"
+
+[[environment_events.columns]]
+name = "measurement_unit"
+description = "Measured quantity unit"
+type = "string"
 
 # ======================================================================
