@@ -1,0 +1,43 @@
+metadata_keys = ["type","format","values"]
+
+[hosts]
+host_id.type = "string"
+host_id.format = "AA0_00000"
+host_groupNumber.type = "integer"
+host_sex.type = "string"
+host_sex.format = "A"
+host_sex.values = ["M","F"]
+host_age.type = "integer"
+host_death.type = "integer"
+host_species.type = "string"
+host_breed.type = "string"
+
+[events]
+host_id.type = "string"
+host_id.format = "AA0_00000"
+event_day.type = "integer"
+event_time.type = "string"
+event_time.format = "HH:MM"
+event_type.type = "string"
+event_type.values = ["measurement","inoculation","treatment"]
+measurement_type.type = "string"
+measurement_quantity.type = "float"
+measurement_unit.type = "string"
+inoculation_type.type = "string"
+inoculation_pathogen.type = "string"
+inoculation_dose.type = "float"
+inoculation_unit.type = "string"
+treatment_type.type = "string"
+treatment_dose.type = "float"
+treatment_unit.type = "string"
+
+[environment]
+host_id.type = "string"
+host_id.format = "AA0_00000"
+allocation_day.type = "integer"
+allocation_time.type = "string"
+allocation_time.format = "HH:MM"
+environment_level.type = "integer"
+environment_level.values = ["1","2","3"]
+environment_id.type = "string"
+environment_id.format = "A0_A0"
