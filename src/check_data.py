@@ -121,4 +121,4 @@ for col in df.columns:
     if col in name_to_unique and name_to_unique[col] == True:
         dupes = duplicates(col, df)
         if len(dupes) > 0:
-            print(f"{col} contains {len(dupes)} duplicate entries.")
+            print(f"{col} contains {len(dupes)} duplicate entries!")
