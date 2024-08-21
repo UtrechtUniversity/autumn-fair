@@ -66,7 +66,10 @@ applyRule <- function(data,
   dataRuled <- data%>%arrange(times);
   sir<- NULL;#0 indicates susceptible individual
   for(cid in unique(dataRuled$host_id)){
-
+ if(cid == 1)
+ {
+   print("okay")
+ }
     dataRuled[dataRuled$host_id ==cid,"sir"] <-  dataRuled%>%           
          filter(host_id == cid)%>%   #subset the particular individual
          arrange(times)%>%       #arrange samples by time
@@ -156,10 +159,11 @@ arrangeData <- function(data,
     data <- data%>%mutate(sample_measure = replace(sample_measure,is.element(sample_measure,neg.vals),-999))
     data <- data%>%mutate(sample_measure = replace(sample_measure,is.na(as.numeric(sample_measure)),NA))
   }
-  
+  #apply interpretation rule to data
+  rdata <- applyRule(data,rule,var.id,...);
   #select specific method
-  return(eval(str2expression(text = paste0("arrangeData.", method)))
-         (applyRule(data,rule,var.id,...),covariates,remInoCase))
+  return(list(eval(str2expression(text = paste0("arrangeData.", method)))
+         (rdata,covariates,remInoCase),rdata))
 }
 
 
@@ -414,7 +418,8 @@ analyseTransmission<- function(inputdata,          #input data
   
   
   #data
-  data.arranged <- data.arranged[[1]]
+  rdata <- data.arranged[[2]]
+  data.arranged <- data.arranged[[1]]$arranged.data
   
   #remove those entries without susceptibles (contain no information and cause errors)
   data.arranged <- data.arranged%>%filter(s>0)
@@ -441,7 +446,8 @@ analyseTransmission<- function(inputdata,          #input data
   #return outcome
   return(list(covariates = list(names = covars,
                                 values = covar.values),
-              estimation = fit))
+              estimation = fit,
+              data = rdata))
 }
 
 

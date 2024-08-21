@@ -170,6 +170,24 @@ rule.asis.detectionLimit <-function(timeseries,var.id,cutoff =0,...){
 }
 
 
+#use either the cutoff on the measurement or the detectionLimit to determine the status of the host
+rule.asis.cutoff.detectionLimit<-function(timeseries,var.id,cutoff = 0,...){
+  #' @title Rule since first positive using cutof and detection limit
+  #' @description
+  #' All samples of a host are considered positive after the first positive sample
+  #' 
+  #' @param timeseries 
+  #' @param var.id 
+  #' @param ... 
+  #' @inherit rule.generic param, return, examples, references
+  #' @return
+  timeseries[,var.id]<- timeseries[,c(var.id[1],"detectionLimit")]%>%
+    apply(FUN = detectionLimitfunction,MARGIN = 1,co = cutoff) %>% as.numeric(var.id);
+  
+  return(rule.asis(timeseries, var.id,...))
+}
+
+
 ##rule using first sampletype in the data and determine status S or I####
 # First positive means individual is positive from that time onwards
 rule.sincefirst <- function(timeseries,var.id,...){
@@ -183,8 +201,13 @@ rule.sincefirst <- function(timeseries,var.id,...){
   #' @inherit rule.generic param, return, examples, references
   #' @return
     if(length(var.id)>1) warning("Only first var.id entry used in rule")
-  new.series <-2*(timeseries %>% 
-                    select(all_of(var.id[1]))%>%
+  #get the timeseries
+  new.series <- timeseries %>% 
+    select(all_of(var.id[1]));
+  #replace NA's with 0
+  new.series[var.id[1]]<- new.series[var.id[1]]%>%unlist %>% replace_na(0)
+  #
+  new.series <-2*(new.series%>%
                     unlist%>%
                     as.numeric%>%
                     cumsum%>%
@@ -364,7 +387,7 @@ rule.all <- function(timeseries,var.id,...){
 
 ##rule using some samples to determine status  I and other for R####
 # Animals can switch between susceptible, infectious, recovered and back
-rule.testinfectioustestrecovered <- function(timeseries,var.id,infrec){
+rule.infectiousrecovered <- function(timeseries,var.id,infrec){
   #' @title Rule for multiple samples in which one determines infection and one recovery
   #' @description
   #' A host is considered infectious if the variables indicating infectiousness are positive and recovered if the variable indicating recovery is positive
