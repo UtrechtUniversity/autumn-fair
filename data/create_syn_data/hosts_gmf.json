@@ -1,0 +1,159 @@
+{
+    "n_rows": 100,
+    "n_columns": 7,
+    "provenance": {
+        "created by": {
+            "name": "metasyn",
+            "version": "1.0.3"
+        },
+        "creation time": "2024-09-05T13:26:38.098754"
+    },
+    "vars": [
+        {
+            "name": "host_id",
+            "type": "discrete",
+            "dtype": "unknown",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.unique_key",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "UniqueKeyDistribution",
+                "unique": true,
+                "parameters": {
+                    "lower": 0,
+                    "consecutive": true
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "host_groupNumber",
+            "type": "discrete",
+            "dtype": "unknown",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 15
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "host_sex",
+            "type": "categorical",
+            "dtype": "unknown",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.multinoulli",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "MultinoulliDistribution",
+                "unique": false,
+                "parameters": {
+                    "labels": [
+                        "F",
+                        "M"
+                    ],
+                    "probs": [
+                        0.5,
+                        0.5
+                    ]
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "host_age",
+            "type": "discrete",
+            "dtype": "unknown",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "host_death",
+            "type": "discrete",
+            "dtype": "unknown",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "host_species",
+            "type": "string",
+            "dtype": "unknown",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.faker",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "FakerDistribution",
+                "unique": false,
+                "parameters": {
+                    "faker_type": "name",
+                    "locale": "en_US"
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "host_breed",
+            "type": "string",
+            "dtype": "unknown",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.faker",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "FakerDistribution",
+                "unique": false,
+                "parameters": {
+                    "faker_type": "name",
+                    "locale": "en_US"
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        }
+    ]
+}

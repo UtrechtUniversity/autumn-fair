@@ -1,0 +1,124 @@
+n_rows = 100
+
+[[var]]
+
+name = "host_id"
+data_free = true
+var_type = "string"
+prop_missing = 0
+distribution = {implements = "core.regex", unique = true, parameters = {regex_data = "[a-z][A-Z][0-9]"}}
+
+[[var]]
+
+name = "event_day"
+data_free = true
+var_type = "discrete"
+prop_missing = 0
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 100}}
+
+[[var]]
+
+name = "event_time"
+data_free = true
+prop_missing = 0
+var_type = "string"
+distribution = {implements = "core.regex", parameters = {regex_data = "[1-2][0-9]:[0-5][09]"}}
+
+
+[[var]]
+
+name = "event_type"
+data_free = true
+var_type = "categorical"
+prop_missing = 0
+distribution = {implements = "core.multinoulli", parameters = { labels = ["measurement","inoculation","treatment"], probs = [0.33,0.33,0.34]}}
+
+[[var]]
+
+name = "measurement_type"
+data_free = true                  
+var_type = "categorical"
+prop_missing = 0    
+distribution = {implements = "core.multinoulli", parameters = { labels = ["measurement","inoculation","treatment"], probs = [0.33,0.33,0.34]}}
+
+[[var]]
+
+name = "measurement_quantity"
+prop_missing = 0
+data_free = true
+var_type = "continuous"
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 15}}
+
+[[var]]
+
+name = "measurement_outcome"
+data_free = true
+var_type = "categorical"
+prop_missing = 0
+distribution = {implements = "core.multinoulli", parameters = { labels = ["true","false"], probs = [0.5,0.5]}}
+
+[[var]]
+
+name = "measurement_unit"
+prop_missing = 0
+data_free = true
+var_type = "categorical"
+distribution = {implements = "core.multinoulli", parameters = {labels = ["ml","g","mg"], probs = [0.3,0.3,0.4]}}
+
+[[var]]
+
+name = "inoculation_type"
+data_free = true
+var_type = "string"
+prop_missing = 0
+distribution = {implements = "core.faker", parameters = {faker_type = "name", locale = "en_US"}}
+
+[[var]]
+
+name = "noculation_pathogen"
+data_free = true
+var_type = "string"
+prop_missing = 0
+distribution = {implements = "core.faker", parameters = {faker_type = "name", locale = "en_US"}}
+
+[[var]]
+
+name = "inoculation_dose"
+prop_missing = 0
+data_free = true
+var_type = "continuous"
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 15}}
+
+[[var]]
+
+name = "inoculation_unit"
+prop_missing = 0
+data_free = true
+var_type = "categorical"
+distribution = {implements = "core.multinoulli", parameters = {labels = ["ml","g","mg"], probs = [0.3,0.3,0.4]}}
+
+[[var]]
+
+name = "treatment_type"
+data_free = true
+var_type = "string"
+prop_missing = 0
+distribution = {implements = "core.faker", parameters = {faker_type = "name", locale = "en_US"}}
+
+[[var]]
+
+name = "treatment_dose"
+prop_missing = 0
+data_free = true
+var_type = "continuous"
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 15}}
+
+[[var]]
+
+name = "treatment_dose_unit"
+prop_missing = 0
+data_free = true
+var_type = "categorical"
+distribution = {implements = "core.multinoulli", parameters = {labels = ["ml","g","mg"], probs = [0.3,0.3,0.4]}}
+
+
