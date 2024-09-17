@@ -1,0 +1,59 @@
+n_rows = 100
+
+[[var]]
+
+name = "host_id"
+data_free = true
+var_type = "discrete"
+prop_missing = 0
+distribution = {implements = "core.unique_key", unique = true, parameters = {consecutive = true, lower = 0}}
+
+[[var]]
+
+name = "host_groupNumber"
+data_free = true
+var_type = "discrete"
+prop_missing = 0
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 15}}
+
+[[var]]
+
+name = "host_sex"
+data_free = true
+prop_missing = 0
+var_type = "categorical"
+distribution = {implements = "core.multinoulli", parameters = {labels = ["F", "M"], probs = [0.5,0.5]}}
+
+[[var]]
+
+name = "host_age"
+data_free = true
+prop_missing = 0
+var_type = "discrete"
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 100}}
+
+[[var]]
+
+name = "host_death"
+data_free = true
+prop_missing = 0
+var_type = "discrete"
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 100}}
+
+[[var]]
+
+name = "host_species"
+data_free = true
+var_type = "string"
+prop_missing = 0
+distribution = {implements = "core.faker", parameters = {faker_type = "name", locale = "en_US"}}
+
+[[var]]
+
+name = "host_breed"
+data_free = true
+var_type = "string"
+prop_missing = 0
+distribution = {implements = "core.faker", parameters = {faker_type = "name", locale = "en_US"}}
+
+

@@ -1,0 +1,101 @@
+host_id,event_day,event_time,event_type,measurement_type,measurement_quantity,measurement_outcome,measurement_unit,inoculation_type,noculation_pathogen,inoculation_dose,inoculation_unit,treatment_type,treatment_dose,treatment_dose_unit
+yM7,80,15:00,inoculation,inoculation,1.6759891207463555,true,mg,Lynn Ramirez,Kelly Franklin,2.3087254455124757,g,Krista Pena,7.007855312021169,mg
+sD0,33,28:19,inoculation,treatment,8.725608223318273,true,mg,Thomas Martinez,James Deleon,8.900815274470958,ml,Troy Wang,12.322307670041532,g
+eB1,6,15:59,inoculation,measurement,10.05228082311512,false,mg,Robert Forbes MD,Becky Hall,8.547248591965776,ml,Dr. Nancy Bryant,13.531149067334235,mg
+tW0,78,24:00,treatment,inoculation,11.956506263671681,false,mg,Miguel Benton,Victoria Fuller,11.49544991338025,ml,Adam Bryant,0.6841937862800807,mg
+gR0,23,20:09,treatment,treatment,4.373015028086345,true,mg,Carl Strickland,Sara Baker,12.05424328614304,ml,Tonya Morrison,8.667419094298207,mg
+eL4,89,28:10,treatment,treatment,10.214818916516645,false,mg,Brianna Carr,David Burton,0.29731543473322075,mg,Justin Hudson,3.641968842946844,g
+kK8,99,21:20,inoculation,treatment,8.78334708377446,true,g,Amy Boyle,Ivan Brewer,8.314788453578604,mg,Maxwell Mack,7.845800147069532,g
+rT4,2,13:49,treatment,inoculation,1.2200794096664964,true,g,Scott Bird,Nichole King,2.3029964498457707,g,Lucas Gibson,11.624396213511819,mg
+nU1,99,21:19,inoculation,treatment,3.276036593083101,true,g,Debbie Ramirez,Jessica Camacho,1.131891284559467,ml,Harold Johnson,0.3686565096566291,mg
+jF2,90,15:19,inoculation,inoculation,5.384577484272684,false,g,Charles Benson,Jonathan Griffin,9.79541372874227,g,Timothy Garza,3.215385802321134,ml
+rD8,44,26:20,treatment,measurement,6.330344829949023,false,g,Brandon Mccullough,Pamela Porter,11.086610410849758,g,Ms. Linda Giles,8.76084031952459,mg
+oO7,92,17:29,treatment,measurement,3.6153553443182136,true,g,Courtney Sullivan,Sarah Fernandez,7.05770650637476,mg,Cody Campbell,0.37724483355354943,mg
+lO0,61,10:40,treatment,treatment,6.201648745129848,false,ml,Annette Patterson,Christine Baird,6.323049564755213,mg,Amber Branch,0.5865710869538238,mg
+aE9,83,19:20,treatment,inoculation,1.186441147441406,true,g,Robert Best,Austin Hill PhD,8.069321848527014,g,Keith Jensen,1.8955963091613437,ml
+aP3,5,13:09,measurement,measurement,9.688488573983914,false,ml,Tyler Lopez,Joseph Rosales,2.6148399663695674,g,Taylor Patel,4.851690946226266,mg
+yM3,31,21:39,inoculation,inoculation,1.8955386439519346,false,mg,Tina Sparks,Jordan Riggs,3.63630982618329,ml,Eric Allen,7.341339064662091,g
+qV0,63,18:39,inoculation,treatment,5.533086882856628,false,ml,Rachel Page,Deborah Mason,4.827761844148744,g,Kathleen Smith,7.48168285577694,g
+qN5,48,22:39,inoculation,treatment,0.7733929719821231,true,ml,Scott Dunn,Adam Hamilton,2.035283620273959,ml,Dr. Jamie Olson,14.987533132886467,g
+eK1,38,28:29,measurement,inoculation,5.831090877641928,true,ml,Robert Sparks,Cameron Thompson,8.159793123825354,g,Caroline Martin,0.28233704633969847,ml
+bI3,10,19:40,inoculation,inoculation,11.244187794380053,true,ml,Amanda Fowler,Paul Mercer,2.374819719396048,ml,Kevin Gallagher,9.46761288710587,mg
+hW7,11,26:20,inoculation,treatment,10.373359463363775,false,mg,Nicole Mahoney,Kevin Wright,0.15752519852740732,mg,Tara Smith,11.648261114886523,mg
+uL5,88,20:40,measurement,inoculation,0.6527839818250469,false,mg,Michael Ramos,Terry Cook,5.158002992360696,ml,Charles Reilly,6.048964367612999,ml
+qA2,53,16:29,treatment,inoculation,14.985940977683022,true,mg,Tara Weber,Willie Johnson,4.608651366752896,ml,Anthony Martinez,11.140602943093358,ml
+qJ3,12,15:30,inoculation,measurement,6.5645046596409165,false,g,Kimberly Page,Steven Norris,6.321029538090624,mg,Brenda Valentine,10.176166712713451,g
+lH9,73,19:40,treatment,inoculation,6.142757490081908,true,ml,Cindy Graham,Richard Potter,7.825123390732208,g,Scott Wood,5.17619337896531,g
+qI6,66,29:50,inoculation,inoculation,4.910709647256995,true,g,Melissa Woods,Ronald Ingram,8.536039716659124,mg,James Gray,4.000024707552826,mg
+cE2,64,17:19,measurement,inoculation,10.398115252766146,false,ml,Kristen Liu,Wesley Cox,13.030776757919428,g,Joan Mendez,12.054811543255463,ml
+wC9,57,19:09,inoculation,measurement,11.411394737029747,true,g,Tiffany Johnson,Julie Parker,9.723403474597111,g,John Delacruz,6.35683555578343,g
+gC3,43,27:29,treatment,inoculation,2.538413081850246,false,g,Denise Morgan,Kathryn Davis,13.343265974594988,mg,Jonathan George,6.7863212985701935,mg
+vB1,75,28:00,treatment,inoculation,13.12939920705536,false,mg,Ashley Russell,Carly Wolfe,0.9677091932016896,g,Brittney Willis,3.979069497654291,g
+aP0,51,27:10,inoculation,measurement,5.859894822512535,false,mg,Darlene Thomas,Justin Johnson MD,12.8157869383758,mg,Patricia Romero PhD,1.5231989350940882,mg
+kP6,23,21:19,treatment,measurement,12.975353503202625,true,mg,Melinda Curtis,Debra Weber,10.516983628646695,g,Natalie Adams DDS,3.6568420793600485,mg
+eG9,17,26:00,measurement,treatment,11.641856509692028,false,mg,Alexander Tran,Chelsey French,2.5481020687602527,mg,Christopher Adams,4.9934361617251115,g
+kA0,61,13:19,treatment,measurement,10.965445883937445,true,mg,John Mills MD,Brandy Jenkins,1.348269637101438,ml,Jessica Adkins,9.660906089730375,ml
+sW7,65,10:09,treatment,inoculation,1.5999012622154836,false,ml,Michael Atkins,Cathy Ryan,13.863089866471967,ml,Melissa Wood,4.727059652756015,mg
+yT6,26,15:00,treatment,measurement,0.04945106491675233,false,g,Kimberly Davis,Alan Stevens,10.150727248586389,g,Ernest Bailey,9.291720528393663,mg
+pP7,16,19:10,treatment,inoculation,6.9458294597651955,true,ml,Kelly Blackwell,Suzanne Mills,0.18684801668785056,mg,Crystal Wall,7.999144087165612,mg
+hO7,28,23:39,treatment,measurement,5.052935743590976,false,mg,Samantha White,Chelsea Watts,12.391394576490017,g,Steven Watts,2.224356443993213,g
+xP7,74,21:09,measurement,inoculation,6.399330729503434,false,mg,Denise Turner,Crystal Frank,4.932897813837924,ml,Raymond Richardson,10.605079841395762,mg
+mF5,62,16:49,measurement,measurement,13.163372292328539,false,g,Dorothy Wade,Brian Marquez,10.898437609749038,ml,Katrina Wilson,9.015301863812283,mg
+zU6,7,20:59,inoculation,measurement,8.779572978068462,false,mg,Lauren Reed,Michael Love,1.7119822665543878,mg,Jeremy Harris,4.047604766406892,g
+qK9,17,29:29,inoculation,measurement,6.660356562178204,true,mg,Roy Black,Daniel Chen,13.087400167547958,g,Jennifer Carson,11.723185752338015,mg
+cP1,39,26:20,measurement,inoculation,4.087283517682177,false,mg,Kelsey Lucero,Garrett Chavez,2.457146795181395,mg,Lori Wagner,13.603843514760124,mg
+jP2,9,10:40,treatment,treatment,12.721978899556667,true,mg,Deborah Johnson,Kayla Johnson,10.965148332243261,mg,Adam White,9.320631732354261,mg
+lU3,97,17:49,inoculation,treatment,14.000079968362899,true,g,Tammy Taylor,Richard Mooney,9.21503887977481,ml,Mark Bush,7.197417845555084,g
+eK9,0,22:19,treatment,inoculation,7.01473475350666,true,ml,Jason Patterson,Jason Chen,11.70275838837474,g,Cesar Yang,7.127770492095488,mg
+sR7,24,18:40,measurement,inoculation,14.935018549969406,true,mg,Jonathan Thornton,Andrew Washington,3.4308287613333737,ml,Samuel Howell,12.379212754234361,g
+rB6,74,13:19,measurement,treatment,10.29901821505296,true,g,Ethan Jordan,Lori Heath,7.747323082508601,mg,Michaela Williams,5.460602647957629,g
+nH3,35,24:39,measurement,inoculation,0.2661200414654469,true,mg,Calvin Hicks,Michelle Patel,10.942885022873414,mg,Bethany Alexander,13.32318394836498,g
+wZ6,82,22:49,treatment,measurement,9.673144302783928,false,mg,Frank Hicks,Daniel Leon,7.479462718586431,g,Wayne Rogers,5.587874964565684,g
+uT8,1,18:10,measurement,treatment,9.737326819847477,true,g,Robert Smith,Jesse Adams,8.756923298162942,mg,Julia Gilbert,11.087475142920452,ml
+oE9,82,24:00,treatment,inoculation,3.917211947041321,true,mg,Kevin Moss,Christine Jenkins,1.1901328996050864,ml,Theresa Estrada,14.787064102620601,mg
+fT9,48,10:20,inoculation,inoculation,6.169602289755571,true,ml,Megan Boyd,Melissa Luna,0.37661373834515566,g,Carol Williams,1.144982751586578,mg
+rT0,57,11:50,treatment,inoculation,4.814472344702807,true,g,Gregory Olson,Jennifer Adams,0.9515186315638552,mg,Christine Wright,5.138657357971258,g
+xG7,60,27:50,treatment,treatment,1.4037628976919896,false,mg,Ryan Morton,Aaron Gonzalez,5.764931574564288,ml,Andrea Dougherty,7.07216532747624,mg
+tB4,20,27:09,measurement,treatment,3.085074447097225,false,mg,Jeremy Lopez,Jesse Lowe,3.5078110349609553,ml,Ethan Wilcox,2.214447742509398,ml
+nI8,27,13:20,inoculation,inoculation,4.713561855433578,true,ml,Laura Chapman,Morgan Khan,2.1044310879488877,mg,Emily Lindsey,13.629462223594858,ml
+qK1,93,27:40,measurement,treatment,5.318668905942286,true,ml,Spencer Munoz,Sarah Williams,1.3831961338436338,g,Rebecca Harmon,9.722477663023867,ml
+zY7,44,11:20,inoculation,measurement,6.222367385592106,true,g,Jessica Garcia,Tracy Calhoun,7.587560699181322,ml,Thomas Henry,10.415151134193072,ml
+lM1,82,18:09,inoculation,measurement,10.743779578331889,true,ml,William Flores,David Lozano,12.432416733309546,mg,Dwayne Calderon,5.3981465123555195,mg
+dH8,78,15:19,inoculation,treatment,7.6249124931926575,false,g,Susan Norton,Sarah Martinez,8.572481863011381,ml,Ann Hines,13.271963129482153,mg
+hT8,66,21:29,treatment,measurement,6.66214898734545,false,g,Beth Ward DVM,Brian Johnson,1.7085369490518632,mg,Andrea Hodge,1.9308427159261505,g
+vW4,28,17:40,treatment,treatment,12.038154070572682,false,g,Steven Boyle,Jacob Hill,0.2627222282756492,g,Mary Valencia PhD,3.3361054794008176,ml
+mE7,60,18:59,treatment,measurement,10.075958954963449,false,ml,Kathleen Preston,Anna Mayo,2.4933867790933135,ml,Nathan Marquez,12.298070651880163,g
+gP0,82,11:00,treatment,measurement,0.09973058077080432,false,mg,Cassandra Gilbert,Erin Douglas DDS,4.8496842769807404,ml,Austin Fisher,7.944961521954903,ml
+xM2,64,19:50,inoculation,treatment,11.809301187407147,false,mg,Adam Chen,Alan Sanders,11.618100744069533,mg,Erica Walker,12.275615989840102,g
+tY5,2,15:00,measurement,treatment,2.271160627112912,false,ml,Nancy Price,Thomas Holden,5.525092259242655,ml,Christine Boone,0.808970413965292,mg
+uX0,28,13:00,inoculation,treatment,7.179513112552234,true,ml,Jennifer Reed,Veronica Andrews,6.275785709053466,ml,Michele Williams,11.412761853431874,ml
+aB0,27,17:19,treatment,treatment,12.548674887100862,true,ml,Roger Clay,Christina Mendoza,6.260944295967511,ml,Jonathan Bullock,6.351280854141813,mg
+aC4,23,21:09,inoculation,inoculation,6.510277782817226,true,ml,Nicole Blanchard,Elizabeth Patterson,7.496767812829162,mg,Madison Erickson,2.7132596071783857,g
+sZ2,65,12:29,measurement,inoculation,7.882328394304386,true,mg,Shelly Simmons,Joseph Gilbert,0.6582219424341451,mg,Cynthia Kim,4.817433534785515,g
+gA3,21,20:29,measurement,treatment,8.933169234125478,false,ml,Mark Carroll,Kevin Mayer,8.946057290350176,g,Jessica Schmidt,11.822315836298195,mg
+rB9,99,17:30,inoculation,treatment,8.889061185469119,true,mg,Sarah Daniel,Richard Fletcher,0.7895161732365763,g,Tina Brady,5.866660939504006,ml
+bD6,31,15:20,inoculation,treatment,9.533576600681922,true,g,Andrew Wright,Alexis Mitchell DVM,13.419656559679403,g,Kimberly Fernandez,13.90270712105909,ml
+gO3,67,25:20,measurement,measurement,0.8703782372998847,false,ml,Karen Ross,Victor Perry,9.493814673737623,g,Christine Lawson,3.8854636521816497,mg
+pP3,93,11:09,inoculation,measurement,6.586191092667379,false,g,Robert Brown,Raymond Mendez,3.737435961022407,ml,Anne Hughes,1.4916919251747403,mg
+yB3,39,11:49,measurement,treatment,7.7516424924103084,true,g,Chad Mcclain,Phillip Bell,14.212880251657495,g,Danielle Jones,0.42195912925302836,g
+pP6,73,24:59,inoculation,measurement,10.674783758781444,false,g,Christina Miller,Tina Stevens,5.009010978846403,mg,Brett Roberts,0.8183142050802206,g
+vO9,72,21:10,treatment,inoculation,2.4968493921209998,false,ml,Martin Burns,Jessica Waters,2.3233419136941698,ml,Allen Walsh,0.15414933872545555,g
+hI5,73,16:19,measurement,inoculation,7.192989505983701,true,mg,Justin Patterson Jr.,Aaron Lopez,12.977902964189981,mg,Christina Castro,14.434464557236053,mg
+oE4,25,10:19,inoculation,measurement,2.2929926547800483,true,mg,Victor Cisneros,Christine Murray,12.593665711014044,ml,Justin Davis,1.429183618438703,g
+gU5,1,22:19,measurement,inoculation,10.489774151926696,true,ml,George Kramer,Heidi Rivera,12.784556156334805,mg,Gregory White,5.076182628263347,mg
+cP4,7,19:39,treatment,inoculation,1.0128941200876274,false,g,Andrea Thomas,Jesus Liu,0.38922101685689325,mg,Sarah Garrett,6.241553270649635,mg
+lB6,45,15:59,treatment,treatment,3.695892296256549,false,ml,Norma Wells,Brenda Walter,14.975495406758347,mg,Victor Gonzalez,0.01340363773652653,mg
+zI8,18,22:30,inoculation,treatment,0.5499203825492988,true,mg,Leah Perez,Laura Olson,9.152038457589784,ml,Diamond Brown,5.408092204687694,mg
+yY6,84,20:20,inoculation,treatment,2.7934210209740193,true,mg,William Lopez,Maurice Stevenson,1.3260059013064374,mg,Derek Moore,5.495291987665244,g
+iV7,66,12:00,measurement,inoculation,4.957196603179029,false,mg,Larry Nelson,Allison Cole,11.707213557931938,ml,Katherine Murphy,5.329685219991022,g
+rZ7,92,20:20,inoculation,inoculation,0.6096324138867998,true,g,Dustin Brooks,Katherine Perry,7.103692042057635,mg,Tamara Lopez,1.8587942329010687,mg
+xK2,34,18:10,treatment,inoculation,1.2804226967623262,true,g,Nicole Arroyo,Cole Phillips DDS,6.0318262830536025,mg,Edwin Strong,6.106478046813894,mg
+wX0,69,27:39,measurement,measurement,10.63141540300464,false,ml,Dr. John Love PhD,Elizabeth Black,7.4188408531461505,g,Stephen Jones,0.7130997927431321,g
+hN9,98,15:59,inoculation,inoculation,10.756536693544215,false,g,Cheryl Adams,Rebecca Bishop,2.1093230830052168,mg,Larry Moore,2.7536173708325693,ml
+oQ0,98,28:29,measurement,measurement,5.481176472456799,true,g,Calvin Murphy,Luke Nunez,9.087431763016028,g,Dawn Bass,8.024466614387867,ml
+wE0,49,23:00,inoculation,treatment,6.485272410248847,false,mg,Sarah Bryant,Victoria Gibson,1.745561759523338,mg,Teresa King,11.639968125601063,mg
+bC4,81,17:40,measurement,measurement,9.149718739767911,true,mg,Sarah Clark,Joseph Wheeler,7.135054605082013,ml,Juan Lopez,11.102570644103368,g
+oJ2,60,19:50,treatment,measurement,0.5931604043181143,false,ml,Ashley Townsend,Ashley Jones,9.132748113454365,mg,Michael Krause,6.319348301008125,ml
+rJ3,39,23:20,inoculation,inoculation,11.873362741197957,false,ml,Diana Willis,Sheila Palmer,2.568532482532326,ml,Robert Costa,1.6917852263269773,ml
+vS2,18,13:40,measurement,inoculation,9.77772108215598,false,mg,Claire Garcia,Carrie Walsh,2.655076506066336,g,Jeffrey Shaffer,5.4966913881118575,ml
+lB3,62,22:59,inoculation,measurement,8.993578271099906,false,mg,Matthew Phillips,Deborah Hernandez,1.501654107194037,ml,Benjamin Hughes,9.118313589008647,mg
+oI5,29,15:00,inoculation,treatment,2.1183587744132613,false,ml,Elizabeth Williams,Michael Ortega,14.30386841554045,ml,John Le,12.016579443179452,mg
+tF1,60,22:10,measurement,measurement,3.704238800639361,false,mg,Andre Shaw,Madison Vincent,8.746218122503842,g,Jesus Park,14.210740842166777,g
