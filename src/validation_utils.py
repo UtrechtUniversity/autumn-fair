@@ -24,7 +24,7 @@ def check_column_types(data, validation):
         for var_name in validation[section]:
             if var_name in data[data_name].columns:
                 if not type_is_equal(str(data[data_name][var_name].dtype), validation[section][var_name]["type"]):
-                    print(f"{var_name} should be {validation[section][var_name]["type"]}")
+                    print(f"{var_name} should be {validation[section][var_name]['type']}")
                     print(f"\t Found: {str(data[data_name][var_name].dtype)}")
     print("----")
 
