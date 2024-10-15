@@ -28,6 +28,11 @@ def check_column_types(data, validation):
                     print(f"\t Found: {str(data[data_name][var_name].dtype)}")
     print("----")
 
+def cast_col_to_string(df, col_name):
+    """Cast the type of the column to string (object)."""
+    if col_name in df.columns:
+        df[col_name] = df[col_name].astype(str)
+
 def check_column_exists(data, validation):
     """Iterate over all csv files and check if all columns are present."""
     for data_name in data:
