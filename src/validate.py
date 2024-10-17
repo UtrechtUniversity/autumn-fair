@@ -4,14 +4,21 @@ import argparse
 import toml
 import sys
 import pandas as pd
+import pprint
 
 from pathlib import Path
+
+from validation_utils import *
 
 # Location of this file
 PATH = Path.absolute(Path(__file__))
 
 # Files to validate
 CSV_FILE_NAMES = ['environment_events.csv', 'environment.csv', 'host_events.csv', 'hosts.csv']
+
+# Max number of reuslts printed to screen
+MAX_NUM_RES = 25
+
 
 # Colors
 INFO = '\033[93m'
@@ -49,19 +56,73 @@ def main() -> None:
             default=";"
             )
 
+    parser.add_argument(
+            "-v",
+            "--verbose",
+            help="Get more output in the single steps of the pipeline to debug.",
+            action='store_true'
+            )
+
     args, _ = parser.parse_known_args() 
    
     # For tab separated files
     if args.sep == "tab":
         args.sep = "\t"
 
-    print(args)
-
     # read in toml file
     validation = read_toml(args.configfile)
+    if args.verbose == True:
+        print(f"DEBUG: validation.toml.")
+        pprint.pprint(validation)
     # read in data
     data = read_csv_files(args.data, args.sep)
-    print(data[CSV_FILE_NAMES[0]])
+    if args.verbose == True:
+        for df_name in data:
+            print(f"DEBUG:shape of {df_name}: {data[df_name].shape}")
+    print("Read in csv files done.")
+
+    # check if all columns exist
+    result = check_column_exists(data, validation)
+    counter = 0
+    for fname, col in result:
+        print(f"{FAIL}Missing column {col} in {fname}.{ENDC}")
+        counter+=1
+        if counter == MAX_NUM_RES-1:
+            print(f"First {MAX_NUM_RES} results out of {len(result)}")
+            break
+    print("Check if all columns are present in the csv completed.")
+
+    # check column types
+    result = check_column_types(data, validation)
+    counter = 0
+    for fname, col, fount_type, exp_type in result:
+        print(f"{FAIL}TYPE in {fname} column {col}; expected {exp_type}, found {fount_type}.{ENDC}")
+        counter+=1
+        if counter == MAX_NUM_RES-1:
+            print(f"First {MAX_NUM_RES} results out of {len(result)}")
+            break
+    print("Check column types completed.")
+
+    # checks on identifier columns
+    ids = ["host_id", "environment_id"]
+    if identifier_checks(data, ids):
+        print("Identifier columns checked successfully.")
+    else:
+        print("Errors found in identifer columns. Please correct them.")
+        return(-1)
+
+    # check dependencies between columns
+    for data_name in data:
+        if set(validation["column_dependencies"]["event"]).issubset(data[data_name].columns):
+            measure = set(validation["column_dependencies"]["measurement"]).issubset(
+                        data[data_name].columns)
+            inoc = set(validation["column_dependencies"]["inoculation"]).issubset(
+                        data[data_name].columns)
+            treat = set(validation["column_dependencies"]["treatment"]).issubset(
+                        data[data_name].columns)
+            if not (measure or inoc or treat):
+                print(f"{data_name}: Need also information on either of measurement,")
+                print("inoculation or treatment.")
 
 def read_csv_files(path: Path, sep: str) -> dict:
     if not path.is_dir():
@@ -80,9 +141,6 @@ def read_csv_files(path: Path, sep: str) -> dict:
         except Exception as err:
             raise ValueError(f"{FAIL}Reading {path.joinpath(f)} failed.{ENDC} {repr(err)}")
     return data
-
-    return
-
 
 def read_toml(path: Path) -> dict:
     print(f"{INFO}INFO: reading validation file: {path}.{ENDC}")
