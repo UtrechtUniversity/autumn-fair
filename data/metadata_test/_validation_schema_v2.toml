@@ -1,8 +1,7 @@
 metadata_keys = ["type","format","values"]
 
 [hosts]
-host_id.type = "string"
-host_id.format = "AA0_00000"
+host_id.type = ["string", "integer"]
 host_groupNumber.type = "integer"
 host_sex.type = "string"
 host_sex.format = "A"
@@ -14,12 +13,11 @@ host_breed.type = "string"
 
 [events]
 host_id.type = "string"
-host_id.format = "AA0_00000"
 event_day.type = "integer"
 event_time.type = "string"
 event_time.format = "HH:MM"
 event_type.type = "string"
-event_type.values = ["measurement","inoculation","treatment"]
+event_type.values = ["M","I","T"]
 measurement_type.type = "string"
 measurement_quantity.type = "float"
 measurement_unit.type = "string"
@@ -39,7 +37,6 @@ environment_id.format = "A0_A0"
 
 [environment_events]
 host_id.type = "string"
-host_id.format = "AA0_00000"
 environment_id.type = "string"
 environment_id.format = "A0_A0"
 event_type.type = "string"
@@ -50,3 +47,9 @@ event_time.format = "HH:MM"
 measurement_type.type = "string"
 measurement_quantity.type = "float"
 measurement_unit.type = "string"
+
+[column_dependencies]
+event = ["event_day", "event_time", "event_type"]
+measurement = ["measurement_type", "measurement_quantity", "measurement_unit"]
+inoculation = ["inoculation_type", "inoculation_pathogen", "inoculation_dose", "inoculation_unit"]
+treatment = ["treatment_type", "treatment_dose", "treatment_unit"]
