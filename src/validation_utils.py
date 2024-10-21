@@ -68,7 +68,9 @@ def check_column_exists(data: dict, validation: dict) -> list:
     validation:
         Dictionary rendered from the validation toml.
 
-    Returns                                                                                                -------                                                                                                List of tuples [(data_name, missing_column_name)]
+    Returns
+    -------
+    List of tuples [(data_name, missing_column_name)]
 
     """
     missing = []
@@ -86,7 +88,8 @@ def check_column_clusters(cols: dict, data_frame: pd.DataFrame):
     """Check if rows of cluster columns are defined, return row and col names if not.
 
     cols: dict
-        Mapping from cluster name to column names. E.g. cols["event"] = ["event_day", "event_time", "event_type"]
+        Mapping from cluster name to column names.
+        E.g. cols["event"] = ["event_day", "event_time", "event_type"]
     """
     result = []
     for items in cols.values():

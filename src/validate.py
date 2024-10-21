@@ -150,7 +150,7 @@ def read_toml(path: Path) -> dict:
         return validation
     except FileNotFoundError as err:
         raise FileNotFoundError(f"{FAIL}Wrong path to validation file: {path}.{ENDC}") from err
-    except tomllib.decoder.TomlDecodeError as err:
+    except tomllib.TOMLDecodeError as err:
         _, ex_value, _ = sys.exc_info()
         raise ValueError(f"{FAIL}Wrong fromat of validation file: {ex_value}.{ENDC}") from err
     return validation
