@@ -1,7 +1,7 @@
 """Commandline tool to check and validate csv files."""
 
 import argparse
-import toml
+import tomllib
 import sys
 import pandas as pd
 import pprint
@@ -145,10 +145,12 @@ def read_csv_files(path: Path, sep: str) -> dict:
 def read_toml(path: Path) -> dict:
     print(f"{INFO}INFO: reading validation file: {path}.{ENDC}")
     try:
-        validation = toml.load(path)
+        with open(path, "rb") as f:
+            validation = tomllib.load(f)
+        return validation
     except FileNotFoundError as err:
         raise FileNotFoundError(f"{FAIL}Wrong path to validation file: {path}.{ENDC}") from err
-    except toml.decoder.TomlDecodeError as err:
+    except tomllib.decoder.TomlDecodeError as err:
         _, ex_value, _ = sys.exc_info()
         raise ValueError(f"{FAIL}Wrong fromat of validation file: {ex_value}.{ENDC}") from err
     return validation
