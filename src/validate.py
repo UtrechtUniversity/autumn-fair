@@ -16,7 +16,7 @@ PATH = Path.absolute(Path(__file__))
 # Files to validate
 CSV_FILE_NAMES = ['environment_events.csv', 'environment.csv', 'host_events.csv', 'hosts.csv']
 
-# Max number of reuslts printed to screen
+# Max number of results printed to screen
 MAX_NUM_RES = 25
 
 
