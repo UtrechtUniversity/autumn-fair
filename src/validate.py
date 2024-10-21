@@ -108,7 +108,7 @@ def main() -> None:
     if identifier_checks(data, ids):
         print("Identifier columns checked successfully.")
     else:
-        print("Errors found in identifer columns. Please correct them.")
+        print("Errors found in identifier columns. Please correct them.")
         return(-1)
 
     # check dependencies between columns
