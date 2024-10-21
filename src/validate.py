@@ -79,7 +79,7 @@ def main() -> None:
     if args.verbose == True:
         for df_name in data:
             print(f"DEBUG:shape of {df_name}: {data[df_name].shape}")
-    print("Read in csv files done.")
+    print("Read in csv files: done.")
 
     # check if all columns exist
     result = check_column_exists(data, validation)
