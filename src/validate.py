@@ -18,7 +18,7 @@ CSV_FILE_NAMES = ['environment_events.csv', 'environment.csv', 'host_events.csv'
 
 # Max number of results printed to screen
 MAX_NUM_RES = 25
-
+COUNTER = 0
 
 # Colors
 INFO = '\033[93m'
@@ -83,25 +83,26 @@ def main() -> None:
 
     # check if all columns exist
     result = check_column_exists(data, validation)
-    counter = 0
     for fname, col in result:
         print(f"{FAIL}Missing column {col} in {fname}.{ENDC}")
-        counter+=1
-        if counter == MAX_NUM_RES-1:
+        COUNTER+=1
+        if COUNTER == MAX_NUM_RES-1:
             print(f"First {MAX_NUM_RES} results out of {len(result)}")
             break
+    COUNTER = 0
     print("Check if all columns are present in the csv completed.")
 
     # check column types
     result = check_column_types(data, validation)
-    counter = 0
     for fname, col, fount_type, exp_type in result:
         print(f"{FAIL}TYPE in {fname} column {col}; expected {exp_type}, found {fount_type}.{ENDC}")
-        counter+=1
-        if counter == MAX_NUM_RES-1:
+        COUNTER+=1
+        if COUNTER == MAX_NUM_RES-1:
             print(f"First {MAX_NUM_RES} results out of {len(result)}")
             break
+    COUNTER = 0
     print("Check column types completed.")
+
 
     # checks on identifier columns
     ids = ["host_id", "environment_id"]
