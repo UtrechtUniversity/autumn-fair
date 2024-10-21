@@ -115,7 +115,7 @@ def identifier_checks(data: dict, id_col_names: list) -> bool:
             res = find_none_values(data[data_name], col_name)
             if len(res) > 0:
                 print(f"{FAIL}{data_name} column {col_name} empty cells found in rows\n{res}{ENDC}")
-                print("Check no empty cells in ID columns completed.")
+                print("Completed check for empty cells in ID columns.")
                 return False
 
     # check if ids in host.csv and environment.csv are unique 
@@ -137,6 +137,6 @@ def identifier_checks(data: dict, id_col_names: list) -> bool:
                 print(f"{FAIL}File {data_name} contains undefined ids in column {col_name}:")
                 print(set(data[data_name][col_name]).difference(ids[col_name]))
                 print(ENDC)
-                #return False
+                return False
 
     return True
