@@ -137,6 +137,6 @@ def identifier_checks(data: dict, id_col_names: list) -> bool:
                 print(f"{FAIL}File {data_name} contains undefined ids in column {col_name}:")
                 print(set(data[data_name][col_name]).difference(ids[col_name]))
                 print(ENDC)
-                #return False
+                return False
 
     return True
