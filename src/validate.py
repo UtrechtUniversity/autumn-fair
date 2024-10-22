@@ -8,7 +8,8 @@ import pprint
 
 from pathlib import Path
 
-from validation_utils import *
+from validation_utils import (check_column_types, check_column_exists,
+                              check_column_clusters, identifier_checks)
 
 # Location of this file
 PATH = Path.absolute(Path(__file__))
