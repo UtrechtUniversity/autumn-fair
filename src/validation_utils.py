@@ -5,6 +5,14 @@ INFO = '\033[93m'
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 
+def print_output(text: str, type_out: str):
+    """Print text as info or error."""
+    if type_out == "info":
+        print(f"{INFO}INFO {text}{ENDC}")
+    elif type_out == "fail":
+        print(f"{FAIL}ERROR {text}{ENDC}")
+
+
 def type_is_equal(col_type: str, val_type: str) -> bool:
     """Compare column types to types in the validation.toml."""
     # string
@@ -117,16 +125,17 @@ def identifier_checks(data: dict, id_col_names: list) -> bool:
         for data_name in [d for d in data if col_name in data[d]]:
             res = find_none_values(data[data_name], col_name)
             if len(res) > 0:
-                print(f"{FAIL}{data_name} column {col_name} empty cells found in rows\n{res}{ENDC}")
+                msg = f"{data_name} column {col_name} empty cells found in rows\n{res}"
+                print_output(msg, "fail")
                 print("Completed check for empty cells in ID columns.")
                 return False
 
     # check if ids in host.csv and environment.csv are unique 
     if not unique_values(data["hosts.csv"], "host_id"):
-        print(f"{FAIL}hosts.csv: Column host_id contains duplicates.{ENDC}")
+        print_output("hosts.csv: Column host_id contains duplicates.", "fail")
         return False
     if not unique_values(data["environment.csv"], "environment_id"):
-        print(f"{FAIL}environment.csv: Column environment_id contains duplicates.{ENDC}")
+        print_output("environment.csv: Column environment_id contains duplicates.", "fail")
         return False
     
     #TODO: generalise the tuple (file, id_col)
@@ -137,9 +146,9 @@ def identifier_checks(data: dict, id_col_names: list) -> bool:
     for col_name in id_col_names:
         for data_name in [d for d in data if col_name in data[d]]:
             if not set(data[data_name][col_name]).issubset(ids[col_name]):
-                print(f"{FAIL}File {data_name} contains undefined ids in column {col_name}:")
-                print(set(data[data_name][col_name]).difference(ids[col_name]))
-                print(ENDC)
+                msg = f"File {data_name} contains undefined ids in column {col_name}:\n"+ \
+                      f"{set(data[data_name][col_name]).difference(ids[col_name])}"
+                print_output(msg, "fail")
                 return False
 
     return True

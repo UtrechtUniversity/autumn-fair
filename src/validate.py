@@ -9,7 +9,8 @@ import pprint
 from pathlib import Path
 
 from validation_utils import (check_column_types, check_column_exists,
-                              check_column_clusters, identifier_checks)
+                              check_column_clusters, identifier_checks,
+                              print_output)
 
 # Location of this file
 PATH = Path.absolute(Path(__file__))
@@ -19,15 +20,11 @@ CSV_FILE_NAMES = ['environment_events.csv', 'environment.csv', 'host_events.csv'
 
 # Max number of results printed to screen
 MAX_NUM_RES = 25
-COUNTER = 0
-
-# Colors
-INFO = '\033[93m'
-FAIL = '\033[91m'
-ENDC = '\033[0m'
+COUNT = 0
 
 def main() -> None:
     """CLI."""
+    global COUNT
     parser = argparse.ArgumentParser(
                 prog="CSV file validation",
                 description="Validates the formatting and typing of csv files."
@@ -85,23 +82,24 @@ def main() -> None:
     # check if all columns exist
     result = check_column_exists(data, validation)
     for fname, col in result:
-        print(f"{FAIL}Missing column {col} in {fname}.{ENDC}")
-        COUNTER+=1
-        if COUNTER == MAX_NUM_RES-1:
+        print_output(f"Missing column {col} in {fname}.", "fail")
+        COUNT+=1
+        if COUNT == MAX_NUM_RES-1:
             print(f"First {MAX_NUM_RES} results out of {len(result)}")
             break
-    COUNTER = 0
+    COUNT = 0
     print("Check if all columns are present in the csv completed.")
 
     # check column types
     result = check_column_types(data, validation)
     for fname, col, found_type, exp_type in result:
-        print(f"{FAIL}TYPE in {fname} column {col}; expected {exp_type}, found {found_type}.{ENDC}")
-        COUNTER+=1
-        if COUNTER == MAX_NUM_RES-1:
+        msg = f"TYPE in {fname} column {col}; expected {exp_type}, found {found_type}."
+        print_output(msg, "fail")
+        COUNT+=1
+        if COUNT == MAX_NUM_RES-1:
             print(f"First {MAX_NUM_RES} results out of {len(result)}")
             break
-    COUNTER = 0
+    COUNT = 0
     print("Check column types completed.")
 
 
@@ -111,7 +109,7 @@ def main() -> None:
         print("Identifier columns checked successfully.")
     else:
         print("Errors found in identifier columns. Please correct them.")
-        sys.exit()
+        #sys.exit()
 
     # check dependencies between columns
     for data_name, df in data.items():
@@ -122,10 +120,11 @@ def main() -> None:
             if not (measure or inoc or treat):
                 print(f"{data_name}: Need also information on either of measurement,")
                 print("inoculation or treatment.")
+    print("Check if column clusters are present completed.")
 
 def read_csv_files(path: Path, sep: str) -> dict:
     if not path.is_dir():
-        raise FileNotFoundError(f"{FAIL}{path} does not exist.{ENDC}")
+        raise FileNotFoundError(f"{path} does not exist.")
     files = [f.name for f in path.glob('**/*.csv') if f.is_file() and f.name in CSV_FILE_NAMES]
     if not set(files) == set(CSV_FILE_NAMES):
         msg = f"{FAIL}Missing files. Expected {CSV_FILE_NAMES}\nFound {files}{ENDC}"
@@ -136,22 +135,22 @@ def read_csv_files(path: Path, sep: str) -> dict:
         try:
             data[f] = pd.read_csv(path.joinpath(f), sep=sep)
         except pd.errors.EmptyDataError as err:
-            raise ValueError(f"{FAIL}{path.joinpath(f)} is empty.{ENDC}")
+            raise ValueError(f"{path.joinpath(f)} is empty.")
         except Exception as err:
-            raise ValueError(f"{FAIL}Reading {path.joinpath(f)} failed.{ENDC} {repr(err)}")
+            raise ValueError(f"Reading {path.joinpath(f)} failed. {repr(err)}")
     return data
 
 def read_toml(path: Path) -> dict:
-    print(f"{INFO}INFO: reading validation file: {path}.{ENDC}")
+    print_output(f"reading validation file: {path}.", "info")
     try:
         with open(path, "rb") as f:
             validation = tomllib.load(f)
         return validation
     except FileNotFoundError as err:
-        raise FileNotFoundError(f"{FAIL}Wrong path to validation file: {path}.{ENDC}") from err
+        raise FileNotFoundError(f"Wrong path to validation file: {path}.") from err
     except tomllib.TOMLDecodeError as err:
         _, ex_value, _ = sys.exc_info()
-        raise ValueError(f"{FAIL}Wrong fromat of validation file: {ex_value}.{ENDC}") from err
+        raise ValueError(f"Wrong fromat of validation file: {ex_value}.") from err
     return validation
 
 if __name__ == "__main__":
