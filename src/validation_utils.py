@@ -38,7 +38,9 @@ def check_column_types(data: dict, validation: dict) -> list:
 
     Returns
     -------
-    List of tuples [(data_name, column_name, found_type, expected_type)]
+    Columns that did not pass the test, in which csv file they are located,
+    their actual type and the expected type.
+        List of tuples [(data_name, column_name, found_type, expected_type)]
 
     """
     output = []
@@ -50,20 +52,24 @@ def check_column_types(data: dict, validation: dict) -> list:
             section = data_name.split(".")[0]
         for var_name in validation[section]:
             if var_name in df.columns:
-                if isinstance(validation[section][var_name]["type"], list):
-                    res = [type_is_equal(str(df[var_name].dtype), t) 
-                                for t in validation[section][var_name]["type"]]
+                # The type of the var_name (column) can be a list of allowed types
+                type_is_list = isinstance(validation[section][var_name]["type"], list)
+                if type_is_list:
+                    type_list = validation[section][var_name]["type"]
+                    # compare the actual type to each of the types in the list
+                    res = [type_is_equal(str(df[var_name].dtype), t) for t in type_list]
                     if not any(res):
                         output.append((data_name, var_name,
                                        str(df[var_name].dtype),
                                        validation[section][var_name]['type']
                                        ))
-                elif not type_is_equal(str(df[var_name].dtype),
+                else:
+                    if not type_is_equal(str(df[var_name].dtype),
                                      validation[section][var_name]["type"]):
-                    output.append((data_name, var_name,
-                                   str(data[data_name][var_name].dtype),
-                                   validation[section][var_name]['type']
-                                   ))
+                        output.append((data_name, var_name,
+                                       str(data[data_name][var_name].dtype),
+                                       validation[section][var_name]['type']
+                                       ))
     return output
 
 def check_column_exists(data: dict, validation: dict) -> list:
