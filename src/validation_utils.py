@@ -35,22 +35,22 @@ def check_column_types(data: dict, validation: dict) -> list:
     """
     output = []
     
-    for data_name in data:
+    for data_name, df in data.items():
         if data_name == "host_events.csv":
             section = "events"
         else:
             section = data_name.split(".")[0]
         for var_name in validation[section]:
-            if var_name in data[data_name].columns:
+            if var_name in df.columns:
                 if isinstance(validation[section][var_name]["type"], list):
-                    res = [type_is_equal(str(data[data_name][var_name].dtype), t) 
+                    res = [type_is_equal(str(df[var_name].dtype), t) 
                                 for t in validation[section][var_name]["type"]]
                     if not any(res):
                         output.append((data_name, var_name,
-                                       str(data[data_name][var_name].dtype),
+                                       str(df[var_name].dtype),
                                        validation[section][var_name]['type']
                                        ))
-                elif not type_is_equal(str(data[data_name][var_name].dtype),
+                elif not type_is_equal(str(df[var_name].dtype),
                                      validation[section][var_name]["type"]):
                     output.append((data_name, var_name,
                                    str(data[data_name][var_name].dtype),
@@ -74,13 +74,13 @@ def check_column_exists(data: dict, validation: dict) -> list:
 
     """
     missing = []
-    for data_name in data:
+    for data_name, df in data.items():
         if data_name == "host_events.csv":
             section = "events"
         else:
             section = data_name.split(".")[0]
         for var_name in validation[section]:
-            if not var_name in data[data_name].columns:
+            if not var_name in df.columns:
                 missing.append((data_name, var_name))
     return missing
 

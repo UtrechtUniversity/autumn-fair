@@ -114,14 +114,11 @@ def main() -> None:
         sys.exit()
 
     # check dependencies between columns
-    for data_name in data:
-        if set(validation["column_dependencies"]["event"]).issubset(data[data_name].columns):
-            measure = set(validation["column_dependencies"]["measurement"]).issubset(
-                        data[data_name].columns)
-            inoc = set(validation["column_dependencies"]["inoculation"]).issubset(
-                        data[data_name].columns)
-            treat = set(validation["column_dependencies"]["treatment"]).issubset(
-                        data[data_name].columns)
+    for data_name, df in data.items():
+        if set(validation["column_dependencies"]["event"]).issubset(df.columns):
+            measure = set(validation["column_dependencies"]["measurement"]).issubset(df.columns)
+            inoc = set(validation["column_dependencies"]["inoculation"]).issubset(df.columns)
+            treat = set(validation["column_dependencies"]["treatment"]).issubset(df.columns)
             if not (measure or inoc or treat):
                 print(f"{data_name}: Need also information on either of measurement,")
                 print("inoculation or treatment.")
