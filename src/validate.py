@@ -95,7 +95,7 @@ def main() -> None:
 
     # check column types
     result = check_column_types(data, validation)
-    for fname, col, fount_type, exp_type in result:
+    for fname, col, found_type, exp_type in result:
         print(f"{FAIL}TYPE in {fname} column {col}; expected {exp_type}, found {fount_type}.{ENDC}")
         COUNTER+=1
         if COUNTER == MAX_NUM_RES-1:
