@@ -116,7 +116,7 @@ def check_column_clusters(cols: dict, data_frame: pd.DataFrame):
     return result
 
 def unique_values(df: pd.DataFrame, col_name: str):
-    """Check if all values in the column are unique."""
+    """Check if all values in the column are unique and not None."""
     return df[col_name].nunique() == len(df[col_name])
 
 def find_none_values(df: pd.DataFrame, col_name: str):
