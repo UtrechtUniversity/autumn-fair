@@ -1,0 +1,121 @@
+---
+title: "Analysis of transmission data"
+
+author: "Egil A.J. Fischer"
+
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    citation_package: natbib
+bibliography: biblio.bib
+
+
+---
+<!-- This is an examplary document. -->
+<!-- Suggested text is provided for different types of analyses. -->
+<!-- By removing the comment signs these can be shown. -->
+<!-- The structure is highly recommended -->
+
+```{r, echo=FALSE, results = FALSE}
+#load required packages 
+library("yaml")
+library("tidyverse")
+
+#source required SUMMERFAIR files
+source("LocalAlgorithm.R")
+
+``` 
+
+# Introduction
+The quantification of transmission of (potential) pathogens provides objective measure to answer crucial questions for prevention and control, which are; how fast (in real time or generation) does the pathogen spread ; to what extend are control measures effective \cite{Velthuis2007}.
+
+Several parameters are crucial in the quantification of spread: 
+* The transmission rate $\beta$
+* The length of the latency period $T_L$ or its reciproce the transition rate $\sigma$
+* The length of the infectious period $T_I$ or its reciproce the recovery rate $\gamma$
+* The basic reproduction rate $R_0$ or effective reproduction rate $R_e$ 
+
+
+
+## Study objective 
+
+In this study we aim to <FILL IN> of <FILL IN> and compare it to <FILL IN>
+
+#Study design
+<!-- This section can be used to describe the set up of the study. -->
+<!-- Pathogen -->
+<!-- Treatments, groups and replicates-->
+<!-- Number of animals per group and replicate. -->
+<!-- Total number of animals -->
+<!-- Other important information on animal movement, housing etc.-->
+
+# Data 
+## Yaml-file containing settings
+```{r Echo = TRUE}
+#obtain the information from the configuration file 
+settings <- read_yaml("summerfair_config_example.yaml")
+```
+
+## Load data
+Data can be obtained from `r settings$data_path`. The data is processed using the SUMMERFAIR-data quality pipeline (Reference + link to github). 
+
+```{r echo = FALSE}
+#read in data - deal with separator issues if needed (sep = ";")
+host.data <- read.csv(paste0(settings$data_path, "hosts.csv"), sep =";")               #static host data
+host.event.data <- read.csv(paste0(settings$data_path,"host_events.csv"), sep =";")   #events in the host
+environment.data <- read.csv(paste0(settings$data_path,"environment.csv"), sep =";")        #static environment data
+environment.event.data <- read.csv(paste0(settings$data_path,"environment_events.csv"), sep =";")  #events in environment
+```
+
+## Data interpretation
+The data will be interpreted using rule: *`r settings$rule_name`*. 
+```{r}
+#filter out only relevant information. Here the count of ESBL producing E.coli
+input.data.events <- host.event.data%>%filter(measurement_type == "esbl_count")
+
+#When only using host data for measurements use function join_host_environment
+input.data.events <- join_host_environment(input.data.events, 
+                                           environment.event.data)
+
+#add additional data of the hosts
+input.data.events <- left_join(x = input.data.events,
+                               y = host.data)
+head(input.data.events)
+
+#treatment_type and inoculation_type is required to have at least a value
+input.data.events$treatment_type <- "control"
+input.data.events <- input.data.events%>%mutate(.by = host_id,
+                                                inoculation_type = sample(c("S","I"),1)) 
+#apply rule and arrange data
+arranged.data <- arrangeData(input.data.events,
+                             eval(str2expression(paste0("rule.",settings$rule_name))), 
+                             var.id = c("host_groupNumber"))
+
+```
+
+
+<!-- Example text Brimer et al. 2024 -->
+Due to the high sensitivity of the RNA detection method, which may also detect low levels of RNA obtained from the environment, the following definition was used: only if a bird has virus-positive samples for two consecutive days, at least one of which has > 60 RNA copies, is the bird considered “infected and infectious” for the parameter inference of the SIR model. To assess the effect of this definition compared to considering a bird infected and infectious if it was positive for only 1 day (with > 60 RNA copies), the data were also analysed using the latter definition. All contact birds were categorized as susceptible up to the first day of the infectious period (i.e. the first day when the bird was categorized as infectious) or up to the end of the post-challenge rearing period if the criteria of infectiousness were not met. Challenged birds were considered “challenged but not yet infectious” when no RNA copies were detected before becoming infectious. Challenged birds that never reached the criterion for infectious were considered susceptible. The end of the infectious period was the last day before recording at least two consecutive negative (0 RNA copy) samples (or the end of the experiment). Afterwards, the bird was categorized as recovered.\cite(Brimeretal2024) 
+
+
+
+## Visualize data
+```{r}
+transform.data.for.plot(arranged.data[[2]])
+``` 
+
+
+# Analysis
+
+# Results
+
+# Conclusion
+
+# References
+
+
+

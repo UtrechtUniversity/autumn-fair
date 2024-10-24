@@ -21,10 +21,9 @@ library(reshape2)
 raw.plot <-function(raw.data){
   raw.data.melt<- reshape2::melt(raw.data,
                                  id.vars = list("host_id",
-                                                "level1",
-                                                "level2",
-                                                "treatment",
-                                                "inoculationStatus"),
+                                                "environemnt_id",
+                                                "treatment_type",
+                                                "inoculation_type"),
                                  variable.name = "time")
   raw.data.melt$ndpch <- reshape2::colsplit(raw.data.melt$time,"[.]",c("ndpch","X"))[,1]
   raw.data.melt$ndpch <-as.numeric(raw.data.melt$ndpch)
@@ -45,7 +44,7 @@ raw.plot <-function(raw.data){
 
 transform.data.for.plot <- function(sirdata){
   out <-data.frame(host_id =c(),
-                   inoculationStatus=c(),
+                   inoculation_type=c(),
                    group =c(),
                    treatment=c(), 
                    lastneg = c(),
@@ -56,17 +55,17 @@ transform.data.for.plot <- function(sirdata){
   #iterate data
   for(i in unique(sirdata$host_id))
   {
-          host.data <- sirdata%>%filter(host_id ==i);
+          single.host.data <- sirdata%>%filter(host_id ==i);
           out <- rbind(out,
                  data.frame(host_id = i,
-                            inoculationStatus = host.data[1,"inoculationStatus"],
-                            group = paste0(host.data[1,"level1"],"_",host.data[1,"level2"]),
-                            treatment = host.data[1,"treatment"], 
-                            lastneg = max(0,max(host.data[host.data$sir == 0,]$times)),#select last negative time
-                            firstpos = max(0,min(host.data[host.data$sir == 2,]$times)),#select first positive time
-                            lastpos = max(0,max(host.data[host.data$sir == 2,]$times)),#select last positive time
-                            firstrec = max(0,min(host.data[host.data$sir == 3,]$times)),#select first recovered time
-                            lastObs = max(host.data$times)) #last observation
+                            inoculation_type = single.host.data[1,"inoculation_type"],
+                            group = paste0(single.host.data[1,"environment_id"]),
+                            treatment = single.host.data[1,"treatment"], 
+                            lastneg = max(0,max(single.host.data[single.host.data$sir == 0,]$times)),#select last negative time
+                            firstpos = max(0,min(single.host.data[single.host.data$sir == 2,]$times)),#select first positive time
+                            lastpos = max(0,max(single.host.data[single.host.data$sir == 2,]$times)),#select last positive time
+                            firstrec = max(0,min(single.host.data[single.host.data$sir == 3,]$times)),#select first recovered time
+                            lastObs = max(single.host.data$times)) #last observation
     )
     
   }
