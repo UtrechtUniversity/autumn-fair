@@ -20,9 +20,13 @@ bibliography: biblio.bib
 <!-- By removing the comment signs these can be shown. -->
 <!-- The structure is highly recommended -->
 
-```{r echo=FALSE}
+```{r, echo=FALSE, results = FALSE}
 #load required packages 
 library("yaml")
+library("tidyverse")
+
+#source required SUMMERFAIR files
+source("LocalAlgorithm.R")
 
 ``` 
 
@@ -50,26 +54,47 @@ In this study we aim to <FILL IN> of <FILL IN> and compare it to <FILL IN>
 <!-- Other important information on animal movement, housing etc.-->
 
 # Data 
+## Yaml-file containing settings
+```{r Echo = TRUE}
+#obtain the information from the configuration file 
+settings <- read_yaml("summerfair_config_example.yaml")
+```
 
 ## Load data
-Data can be obtained from <FILL IN REPOSITORY>. The data is processed using the SUMMERFAIR-data quality pipeline (Reference + link to github). 
+Data can be obtained from `r settings$data_path`. The data is processed using the SUMMERFAIR-data quality pipeline (Reference + link to github). 
 
-```{r Echo = FALSE}
-path <- "./data/processed/example_project/"
-#host.data <- read.csv(paste0(path, "host.csv"))               #static host data
-#host.event.data <- read.csv(paste0(path,"host_events.csv"))   #events in the host
-#environment.data <- read.csv(paste0(path,"environment.csv"))        #static environment data
-#environment.event.data <- read.csv(paste0(path,"environment_events.csv"))  #events in environment
+```{r echo = FALSE}
+#read in data - deal with separator issues if needed (sep = ";")
+host.data <- read.csv(paste0(settings$data_path, "hosts.csv"), sep =";")               #static host data
+host.event.data <- read.csv(paste0(settings$data_path,"host_events.csv"), sep =";")   #events in the host
+environment.data <- read.csv(paste0(settings$data_path,"environment.csv"), sep =";")        #static environment data
+environment.event.data <- read.csv(paste0(settings$data_path,"environment_events.csv"), sep =";")  #events in environment
 ```
 
 ## Data interpretation
+The data will be interpreted using rule: *`r settings$rule_name`*. 
 ```{r}
-#set path to the configuration file
-config.file <- "./src/WorkingExample/summerfair_config_E.yaml"
-#read config-file 
-settings <- read_yaml(config.file)
-#configure data according to config file
-print(settings)
+#filter out only relevant information. Here the count of ESBL producing E.coli
+input.data.events <- host.event.data%>%filter(measurement_type == "esbl_count")
+
+#When only using host data for measurements use function join_host_environment
+input.data.events <- join_host_environment(input.data.events, 
+                                           environment.event.data)
+
+#add additional data of the hosts
+input.data.events <- left_join(x = input.data.events,
+                               y = host.data)
+head(input.data.events)
+
+#treatment_type and inoculation_type is required to have at least a value
+input.data.events$treatment_type <- "control"
+input.data.events <- input.data.events%>%mutate(.by = host_id,
+                                                inoculation_type = sample(c("S","I"),1)) 
+#apply rule and arrange data
+arranged.data <- arrangeData(input.data.events,
+                             eval(str2expression(paste0("rule.",settings$rule_name))), 
+                             var.id = c("host_groupNumber"))
+
 ```
 
 
@@ -79,6 +104,10 @@ Due to the high sensitivity of the RNA detection method, which may also detect l
 
 
 ## Visualize data
+```{r}
+transform.data.for.plot(arranged.data[[2]])
+``` 
+
 
 # Analysis
 

@@ -111,6 +111,32 @@ setTimes<- function(input,                 #data set
   return((times/ multiplicationfactor[paste0("ex_",resolution)])%>%round(decimals))
 } 
  
+## function to join host and environmental data such that each host sample is placed in a environment
+join_host_environment <- function(host_event_data,
+                                  environment_event_data){
+#create temporary output object
+temp.output <- host_event_data
+temp.output$environment_id <- NA;
+#iterate over the events of host
+  for(i in c(1:dim(temp.output)[1]))
+  {
+    #select host_id, day and time
+    event_key <- temp.output[i,c("host_id","event_day","event_time")]
+    #find last movement of this host
+    if(!is.na(as.numeric(event_key$event_time))){
+      temp.output$environment_id[i]<-last(environment_event_data[environment_event_data$host_id== event_key$host_id & 
+                                  environment_event_data$event_day <= event_key$event_day &
+                                  environment_event_data$event_time <= event_key$event_time,"environment_id"])
+    }else{
+      temp.output$environment_id[i]<-env.id<-last(environment_event_data[environment_event_data$host_id== event_key$host_id & 
+                                    environment_event_data$event_day <= event_key$event_day,"environment_id"])
+      
+    }
+  }
+
+  return(temp.output)  
+}
+
 ##generic function to arrange input for analysis. Based on methods it will call another function####
 arrangeData <- function(data, 
                         rule,
@@ -147,7 +173,7 @@ arrangeData <- function(data,
   data$times <- setTimes(data,...) #To do: should that be here or else where
   #set value of treatment that is the control to "control"
   data<-data%>%
-    mutate(treatment = replace(treatment, treatment == control, "control"))%>%as.data.frame
+    mutate(treatment_type = replace(treatment_type, treatment_type == control, "control"))%>%as.data.frame
     
   #print the method of analysis
   if(Echo){print(paste("Arrange data for", method, "analysis."))};
@@ -203,7 +229,7 @@ arrangeData.mll<-function(rdata,           #data
   
   #2. cases per interval
   indiv.cases <- rdata%>%
-    filter(if(remInoCase)!str_detect(inoculationStatus,inoMarker)else TRUE)%>%
+    filter(if(remInoCase)!str_detect(inoculation_type,inoMarker)else TRUE)%>%
     arrange(across(c(host_id,times)))%>% 
     mutate(case = as.numeric(sir > 0 & lag(sir)==0))
     
@@ -242,7 +268,7 @@ arrangeData.mll<-function(rdata,           #data
   }
   #4. number of susceptible individuals at start interval at level 1
   s1 <- rdata%>%
-    filter(if(remInoCase)!str_detect(inoculationStatus,inoMarker)else TRUE)%>%
+    filter(if(remInoCase)!str_detect(inoculation_type,inoMarker)else TRUE)%>%
     group_by(across(c("round",all_of(mixinglevels) ,"times"))) %>% 
     summarise(s = sum(sir == 0,na.rm = TRUE))%>%as.data.frame
   group.data <- group.data%>%full_join(s1, by = c("round",all_of(mixinglevels),"times"),relationship = "many-to-many")
@@ -324,7 +350,7 @@ arrangeData.mll<-function(rdata,           #data
   if(!is.null(reference))
   {
     group.data <- within(group.data, 
-                         treatment <- relevel(treatment, ref = eval(reference)))
+                         treatment_type <- relevel(treatment_type, ref = eval(reference)))
   }
   return(list(arranged.data  = group.data))
 }
@@ -354,17 +380,17 @@ arrangeData.finalsize<-function(rdata,           #data
   minday <- min(datawithrule$ex_day)
   maxday <- max(datawithrule$ex_day)
   iS <- datawithrule%>%
-    filter(inoculationStatus == "S1")%>%
+    filter(inoculation_type == "S1")%>%
     filter(ex_day == minday)%>%
     group_by(level2)%>%
     summarise(s = sum(sir==0,na.rm =TRUE))
    fS <-  datawithrule%>%
-     filter(inoculationStatus == "S1")%>%
+     filter(inoculation_type == "S1")%>%
      filter(ex_day == maxday)%>%
      group_by(level2)%>%
      summarise(s = sum(sir==0,na.rm =TRUE))
    iI <- (datawithrule%>%
-     filter(inoculationStatus == "I")%>%
+     filter(inoculation_type == "I")%>%
      group_by(host_id)%>%
      summarise(level2 = level2,
        maxstatus = sum(max(sir,na.rm=TRUE))>1))%>%
@@ -423,11 +449,11 @@ analyseTransmission<- function(inputdata,          #input data
   
   #remove those entries without susceptibles (contain no information and cause errors)
   data.arranged <- data.arranged%>%filter(s>0)
-  data.arranged$treatment <- factor(data.arranged$treatment, 
+  data.arranged$treatment_type <- factor(data.arranged$treatment_type, 
                                     ordered = FALSE)
- if(!is.null(reference)){ if(any(str_detect(eval(reference),as.character(data.arranged$treatment)))){
+ if(!is.null(reference)){ if(any(str_detect(eval(reference),as.character(data.arranged$treatment_type)))){
   data.arranged <- within(data.arranged, 
-                          treatment <- relevel(treatment, ref = eval(reference))) }else print(paste("Control group:  ", eval(reference), "not present"))}
+                          treatment_type <- relevel(treatment_type, ref = eval(reference))) }else print(paste("Control group:  ", eval(reference), "not present"))}
  
   #do analysis by running the method
   fit <- eval(str2expression(paste0("run.",method)))(covars = covars,
@@ -483,8 +509,8 @@ get.local.transmission <- function(dataset,config.file =  "src/summerfair_config
   var.id = if(all(is.na(dataset$sample_measure))){c("sample_result")}else{ c("sample_measure")}
   
   #determine the control group
-  control = ifelse(any(grepl('control',dataset$treatment,ignore.case = T)),"control",
-                  ifelse(any(grepl('0',dataset$treatment)),"0",""))
+  control = ifelse(any(grepl('control',dataset$treatment_type,ignore.case = T)),"control",
+                  ifelse(any(grepl('0',dataset$treatment_type)),"0",""))
   
   
   #determine the rule (add detection limits or recoding if required) 
@@ -505,7 +531,7 @@ get.local.transmission <- function(dataset,config.file =  "src/summerfair_config
   
   
   #marker for inoculation
-  inomarker = if(any(str_detect(dataset$inoculationStatus,"2"))){"2"}else {"I"}
+  inomarker = if(any(str_detect(dataset$inoculation_type,"2"))){"2"}else {"I"}
  
   #check data quality
  # quality.report <- report.DataQuality(dataset);
