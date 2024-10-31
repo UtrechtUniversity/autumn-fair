@@ -36,7 +36,7 @@ You can reconfigure the json files (first commands) or directly generate new dat
 - environment_events.csv
 
 	```
-	etasyn create-meta --config environment_events_config.toml environment_events_gmf.json
+	metasyn create-meta --config environment_events_config.toml environment_events_gmf.json
 	metasyn synthesize  environment_events_gmf.json -o synthetic_data/environment_events.csv
 	```
 	
