@@ -220,7 +220,7 @@ def read_toml(path: Path) -> dict:
 
 def _continue_tests(opt_y: bool):
     if opt_y is False:
-        text = input("Continue tests? (y/n)")
+        text = input("Continue tests? (ENTER/n)")
         if text in ["n", "N", "no", "No", "NO"]:
             sys.exit(0)
 
