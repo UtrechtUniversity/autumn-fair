@@ -1,4 +1,5 @@
 """Functionality for the validatuion pipeline."""
+
 import pandas as pd
 
 # Colors
@@ -110,6 +111,68 @@ def check_column_exists(data: dict, validation: dict) -> list:
             if var_name not in df.columns:
                 missing.append((data_name, var_name))
     return missing
+
+
+def find_empty_columns(data: dict) -> list:
+    """Iterate over all csv files and find columns which are empty.
+
+    Parameters
+    ----------
+    data:
+        Dictionary mapping from filename to Pandas.DataFrame
+    validation:
+        Dictionary rendered from the validation toml.
+
+    Returns
+    -------
+    List of tuples [(data_name, empty_column_name)]
+
+    """
+    empty = []
+    for data_name, df in data.items():
+        empty_cols = [col for col in df.columns if df[col].isnull().all()]
+        empty.extend(list(zip([data_name] * len(empty_cols), empty_cols)))
+    return empty
+
+
+def check_categorical_values(col: pd.core.series.Series, cat_values: list) -> list:
+    """Return list of values in a column which do not match any categorical values."""
+    return set(col.unique()).difference(cat_values)
+
+
+def check_column_values(data: dict, validation: dict) -> list:
+    """Find all columns with categorical values and check them.
+
+    Parameters
+    ----------
+    data:
+        Dictionary mapping from filename to Pandas.DataFrame
+    validation:
+        Dictionary rendered from the validation toml.
+
+    Returns
+    -------
+        List of tuples [(data_name, column_name, list of values that do not match)]
+    """
+    unexpected_values = []
+    for data_name, df in data.items():
+        if data_name == "host_events.csv":
+            section = "events"
+        else:
+            section = data_name.split(".")[0]
+        for var_name in validation[section]:
+            if var_name in df.columns and "values" in validation[section][var_name]:
+                cat_values = validation[section][var_name]["values"]
+                col = data[data_name][var_name]
+                if len(col) == 0:
+                    unexpected_values.append(
+                        (data_name, var_name, "no data in column")
+                    )
+                else:
+                    unexpected_values.append(
+                        (data_name, var_name, check_categorical_values(col, cat_values))
+                    )
+    return unexpected_values
 
 
 def check_column_clusters(cols: dict, data_frame: pd.DataFrame) -> list:

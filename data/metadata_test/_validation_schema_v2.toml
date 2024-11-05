@@ -12,7 +12,7 @@ host_species.type = "string"
 host_breed.type = "string"
 
 [events]
-host_id.type = "string"
+host_id.type = ["string", "integer"]
 event_day.type = "integer"
 event_time.type = "string"
 event_time.format = "HH:MM"
@@ -32,12 +32,12 @@ treatment_unit.type = "string"
 [environment]
 environment_level.type = "integer"
 environment_level.values = ["1","2","3"]
-environment_id.type = "string"
+environment_id.type = ["string", "integer"]
 environment_id.format = "A0_A0"
 
 [environment_events]
-host_id.type = "string"
-environment_id.type = "string"
+host_id.type = ["string", "integer"]
+environment_id.type = ["string", "integer"]
 environment_id.format = "A0_A0"
 event_type.type = "string"
 event_type.values = ["measurement","allocation"]
