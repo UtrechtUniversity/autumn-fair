@@ -148,7 +148,7 @@ def main() -> None:
         print("Identifier columns checked successfully.")
     else:
         print("Errors found in identifier columns. Please correct them.")
-        #sys.exit()
+        _continue_tests(args.y)
 
     # check dependencies between columns
     for data_name, df in data.items():
