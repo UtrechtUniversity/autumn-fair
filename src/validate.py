@@ -148,7 +148,7 @@ def main() -> None:
                 print(f"Row {index} in columns {cols}.")
                 COUNT += 1
                 if COUNT == MAX_NUM_RES - 1:
-                    print(f"First {MAX_NUM_RES} results out of {len(result)}")
+                    print(f"First {MAX_NUM_RES} results out of {len(results)}")
                     break
             COUNT = 0
 
