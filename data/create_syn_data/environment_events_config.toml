@@ -10,19 +10,11 @@ distribution = {implements = "core.regex", unique = true, parameters = {regex_da
 
 [[var]]
 
-name = "environment_level"
-data_free = true
-prop_missing = 0
-var_type = "discrete"
-distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 15}}
-
-[[var]]
-
 name = "host_id"
 data_free = true
-var_type = "string"
+var_type = "discrete"
 prop_missing = 0
-distribution = {implements = "core.regex", unique = true, parameters = {regex_data = "[a-z][A-Z][0-9]"}}
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 100}}
 
 [[var]]
 

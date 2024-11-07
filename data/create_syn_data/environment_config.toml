@@ -7,10 +7,27 @@ data_free = true
 var_type = "string"
 prop_missing = 0
 distribution = {implements = "core.regex", unique = true, parameters = {regex_data = "[a-z][A-Z][0-9]"}}
+
 [[var]]
 
 name = "environment_level"
 data_free = true
 prop_missing = 0
 var_type = "discrete"
+distribution = {implements = "core.uniform", parameters = {lower = 1, upper = 3}}
+
+[[var]]
+
+name = "environment_parent"
+data_free = true
+var_type = "discrete"
+prop_missing = 0
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 100}}
+
+[[var]]
+
+name = "environment_host_round"
+data_free = true
+var_type = "discrete"
+prop_missing = 0
 distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 15}}
