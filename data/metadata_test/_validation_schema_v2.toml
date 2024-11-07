@@ -60,6 +60,7 @@ event_time.format = "HH:MM"
 measurement_type.type = "string"
 measurement_quantity.type = "float"
 measurement_unit.type = "string"
+
 measurement_outcome.type = "integer"
 measurement_outcome.values = ["0","1"]
 
@@ -69,3 +70,4 @@ event = ["event_day", "event_time", "event_type"]
 measurement = ["measurement_type", "measurement_quantity", "measurement_unit","measurement_outcome"]
 inoculation = ["inoculation_type", "inoculation_pathogen", "inoculation_dose", "inoculation_unit","inoculation_outcome"]
 treatment = ["treatment_type", "treatment_dose", "treatment_unit","treatment_outcome"]
+

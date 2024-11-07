@@ -1,0 +1,13 @@
+write_log: FALSE
+over_write_log: TRUE
+data_path: "C:/Users/fisch106/surfdrive - Fischer, E.A.J. (Egil)@surfdrive.surf.nl/Projecten/SUMMERFAIR/ProjectShareSUMMERFAIR/Syntax/autumn-fair/data/example_project/"
+rule_script: "src/WorkingExample/DataInterpretationRules.R"
+rule_name: "sincefirst"
+method: "mll"
+cutoff: "0"
+codesposnegmiss: "c(+,-,NA)"
+newcodes: "c(1,0,NA)" 
+covars: "treatment"
+reference: "control"
+control: "Control"
+preventError: TRUE
