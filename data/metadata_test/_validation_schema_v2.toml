@@ -33,16 +33,16 @@ treatment_type.type = "string"
 treatment_dose.type = "float"
 treatment_unit.type = "string"
 measurement_outcome.type = "integer"
-measurement_outcome.values = ["0","1"]
+measurement_outcome.values = [0,1]
 treatment_outcome.type = "integer"
 treatment_outcome.values = ["0","1"]
 inoculation_outcome.type = "integer"
-inoculation_outcome.values = ["0","1"]
+inoculation_outcome.values = [0,1]
 
 
 [environment]
 environment_level.type = "integer"
-environment_level.values = ["1","2","3"]
+environment_level.values = [1,2,3]
 environment_id.type = ["string", "integer"]
 environment_id.format = "A0_A0"
 environment_parent.type = "integer"
@@ -62,7 +62,7 @@ measurement_quantity.type = "float"
 measurement_unit.type = "string"
 
 measurement_outcome.type = "integer"
-measurement_outcome.values = ["0","1"]
+measurement_outcome.values = [0,1]
 
 
 [column_dependencies]
