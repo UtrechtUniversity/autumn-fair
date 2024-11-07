@@ -177,6 +177,7 @@ def check_column_values(data: dict, validation: dict) -> list:
 
 def check_column_clusters(cols: dict, data_frame: pd.DataFrame) -> list:
     """Check if row contains values in all columns of the cluster.
+
     Return row and col names if not.
 
     cols: dict
