@@ -177,6 +177,7 @@ def check_column_values(data: dict, validation: dict) -> list:
 
 def check_column_clusters(cols: dict, data_frame: pd.DataFrame) -> list:
     """Check if row contains values in all columns of the cluster.
+
     Return row and col names if not.
 
     cols: dict
@@ -237,7 +238,7 @@ def identifier_checks(data: dict, id_col_names: list) -> bool:
             if not set(data[data_name][col_name]).issubset(ids[col_name]):
                 msg = (
                     f"File {data_name} contains undefined ids in column {col_name}:\n"
-                    + f"{set(data[data_name][col_name]).difference(ids[col_name])}"
+                    f"{set(data[data_name][col_name]).difference(ids[col_name])}"
                 )
                 print_output(msg, "fail")
                 return False
