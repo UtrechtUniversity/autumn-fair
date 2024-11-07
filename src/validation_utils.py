@@ -238,7 +238,7 @@ def identifier_checks(data: dict, id_col_names: list) -> bool:
             if not set(data[data_name][col_name]).issubset(ids[col_name]):
                 msg = (
                     f"File {data_name} contains undefined ids in column {col_name}:\n"
-                    + f"{set(data[data_name][col_name]).difference(ids[col_name])}"
+                    f"{set(data[data_name][col_name]).difference(ids[col_name])}"
                 )
                 print_output(msg, "fail")
                 return False
