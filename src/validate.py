@@ -133,10 +133,11 @@ def main() -> None:
     # check columns with categorical values e.g. event_type.values = ["M","I","T"]
     result = check_column_values(data, validation)
     for fname, col, unexpected_vals in result:
-        msg = (
-            f"VALUES {fname} column {col} contains {unexpected_vals} --> not accepted."
-        )
-        print_output(msg, "fail")
+        if len(unexpected_vals) > 0:
+            msg = (
+                f"VALUES {fname} column {col} contains {unexpected_vals} --> not accepted."
+            )
+            print_output(msg, "fail")
         if _stop_print(len(result)):
             break
     print("Check categorical values completed.")
