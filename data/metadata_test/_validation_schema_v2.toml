@@ -10,6 +10,10 @@ host_age.type = "integer"
 host_death.type = "integer"
 host_species.type = "string"
 host_breed.type = "string"
+host_age_unit.type = "string" 
+host_age_unit.values = ["H","D","W","M","Y"]
+host_age_unit.format = "A"
+host_round.type = "integer"
 
 [events]
 host_id.type = ["string", "integer"]
@@ -28,12 +32,21 @@ inoculation_unit.type = "string"
 treatment_type.type = "string"
 treatment_dose.type = "float"
 treatment_unit.type = "string"
+measurement_outcome.type = "integer"
+measurement_outcome.values = [0,1]
+treatment_outcome.type = "integer"
+treatment_outcome.values = ["0","1"]
+inoculation_outcome.type = "integer"
+inoculation_outcome.values = [0,1]
+
 
 [environment]
 environment_level.type = "integer"
-environment_level.values = ["1","2","3"]
+environment_level.values = [1,2,3]
 environment_id.type = ["string", "integer"]
 environment_id.format = "A0_A0"
+environment_parent.type = "integer"
+environment_host_round = "integer"
 
 [environment_events]
 host_id.type = ["string", "integer"]
@@ -48,8 +61,13 @@ measurement_type.type = "string"
 measurement_quantity.type = "float"
 measurement_unit.type = "string"
 
+measurement_outcome.type = "integer"
+measurement_outcome.values = [0,1]
+
+
 [column_dependencies]
 event = ["event_day", "event_time", "event_type"]
-measurement = ["measurement_type", "measurement_quantity", "measurement_unit"]
-inoculation = ["inoculation_type", "inoculation_pathogen", "inoculation_dose", "inoculation_unit"]
-treatment = ["treatment_type", "treatment_dose", "treatment_unit"]
+measurement = ["measurement_type", "measurement_quantity", "measurement_unit","measurement_outcome"]
+inoculation = ["inoculation_type", "inoculation_pathogen", "inoculation_dose", "inoculation_unit","inoculation_outcome"]
+treatment = ["treatment_type", "treatment_dose", "treatment_unit","treatment_outcome"]
+
