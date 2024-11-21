@@ -56,4 +56,18 @@ var_type = "string"
 prop_missing = 0
 distribution = {implements = "core.faker", parameters = {faker_type = "name", locale = "en_US"}}
 
+[[var]]
 
+name = "host_age_unit"
+data_free = true
+var_type = "categorical"
+prop_missing = 0
+distribution = {implements = "core.multinoulli", parameters = {labels = ["H", "D", "M", "Y"], probs = [0.25,0.25,0.25,0.25]}}
+
+[[var]]
+
+name = "host_round"
+data_free = true
+prop_missing = 0
+var_type = "discrete"
+distribution = {implements = "core.uniform", parameters = {lower = 0, upper = 12}}
