@@ -46,7 +46,7 @@ environment_level.values = [1,2,3]
 environment_id.type = ["string", "integer"]
 environment_id.format = "A0_A0"
 environment_parent.type = "integer"
-environment_host_round = "integer"
+environment_host_round.type = "integer"
 
 [environment_events]
 host_id.type = ["string", "integer"]
