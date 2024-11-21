@@ -174,7 +174,7 @@ def main() -> None:
         if len(result) > 0:
             print(f"{data_name}: found missing values")
             for index, cols in result:
-                print(f"Row {index} in columns {cols}.")
+                print(f"Row {index+1} in columns {cols}.")
                 if _stop_print(len(result)):
                     break
             COUNT = 0

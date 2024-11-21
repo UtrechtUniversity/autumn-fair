@@ -35,7 +35,7 @@ treatment_unit.type = "string"
 measurement_outcome.type = "integer"
 measurement_outcome.values = [0,1]
 treatment_outcome.type = "integer"
-treatment_outcome.values = ["0","1"]
+treatment_outcome.values = [0,1]
 inoculation_outcome.type = "integer"
 inoculation_outcome.values = [0,1]
 
