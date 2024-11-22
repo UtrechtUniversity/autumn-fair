@@ -172,7 +172,9 @@ def check_column_values(data: dict, validation: dict) -> list:
                     unexpected_values.append(
                         (data_name, var_name, check_categorical_values(col, cat_values))
                     )
-    return unexpected_values
+    # remove empty sets
+    res = [vals for vals in unexpected_values if len(vals[2]) > 0]
+    return res
 
 
 def check_column_clusters(cols: dict, data_frame: pd.DataFrame) -> list:
