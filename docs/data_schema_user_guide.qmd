@@ -1,7 +1,7 @@
 ---
 title: "Data Schema User Guide"
-author: "Stefano Rapisarda (RDM)"
-date: 11/14/2024
+author: "Stefano Rapisarda (RDM, Utrecht University Library)"
+date: 11/28/2024
 version: v1.0
 date-format: long
 toc: true
@@ -15,9 +15,8 @@ format:
     number-sections: true
     colorlinks: true
     geometry:
-      - left=20mm
-      - right=20mm
-jupyter: python3
+      - left=10mm
+      - right=10mm
 ---
 
 # Experiment Data Directory Structure
