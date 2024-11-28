@@ -146,7 +146,7 @@ This data structure organises static and dynamic information in different data f
 
 # Dataset relations
 
-The `host.csv`, `host_event.csv`, and the `environment_event.csv` files contain a `host_id` column. When analysing the data, researchers can extract information related to a single host selecting data by host ID. For example:
+The `host.csv`, `host_events.csv`, and the `environment_events.csv` files contain a `host_id` column. When analysing the data, researchers can extract information related to a single host selecting data by host ID. For example:
 
 TASK: Checking a certain measurement outcome for hosts belonging to the same host round.
 
