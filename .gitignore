@@ -109,3 +109,4 @@ dmypy.json
 .pyre/
 .Rproj.user
 .Rhistory
+.RData
