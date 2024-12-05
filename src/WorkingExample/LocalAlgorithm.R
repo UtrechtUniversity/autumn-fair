@@ -91,9 +91,7 @@ setTimes<- function(input,                 #data set
   #' @param decimals  number of decimals to round the time to
   #' @return vector of times
   
-  
-  timevars <- c("ex_sec","ex_min","ex_hour","ex_day","ex_week","ex_year");
-  #timevarsininput<-timevars[timevars%in%names(input)]
+ 
   times <-  NA;
   multiplicationfactor <- c(ex_sec = 1,
     ex_min = 60,
@@ -101,19 +99,31 @@ setTimes<- function(input,                 #data set
     ex_day = 60*60*24,
     ex_week = 60*60*24*7,
     ex_year = 60*60*24*365);
-  #ugly code but does the job of setting it to seconds
-  for(t in timevars[timevars%in%names(input)])  {
-        if(is.na(times[1])){ 
-          times <- replace_na(as.numeric(input[,t]),0)*multiplicationfactor[t]} else{
-          times <- times+replace_na(as.numeric(input[,t]),0)*multiplicationfactor[t]}
-  }; times<- unlist(times)
+
+  #internal function to change from event_time to seconds
+  time_to_seconds <- function(x){
+    #no entry
+    if(x =="")return(as.numeric(as.POSIXct("00:00:00", format="%H:%M:%S")));
+    if(is.null(x)||is.na(x)||is.nan(x)) return(as.numeric(as.POSIXct("00:00:00", format="%H:%M:%S")));
+    #determine if it has minutes or also seconds
+    return(switch(str_count(x,":")+1,
+                as.POSIXct(x, format="%H"),
+                as.POSIXct(x, format="%H:%M"),
+                as.POSIXct(x, format="%H:%M:%S")))
+    
+  }
+  
+  #create vector with times since mid-night in seconds
+  times <-  as.numeric(sapply(input[,"event_time"],time_to_seconds)) - as.numeric(as.POSIXct("00:00:00", format="%H:%M:%S")) +input[,"event_day"]*60*60*24
+  
   #round off to one decimal given the resolution
   return((times/ multiplicationfactor[paste0("ex_",resolution)])%>%round(decimals))
 } 
  
-## function to join host and environmental data such that each host sample is placed in a environment
+## function to join host and environmental data such that each host sample is placed in a environment and the environment is placed in its parent environment(s)
 join_host_environment <- function(host_event_data,
-                                  environment_event_data){
+                                  environment_event_data,
+                                  environment_data){
 #create temporary output object
 temp.output <- host_event_data
 temp.output$environment_id <- NA;
@@ -134,7 +144,37 @@ temp.output$environment_id <- NA;
     }
   }
 
-  return(temp.output)  
+#create a table with the hierarchy of the levels 
+# Initialize the hierarchical table with only the original child values
+hierarchy <- environment.data[,c("environment_id","environment_parent")] %>%
+  filter(!environment_id %in% environment_parent) %>% # Exclude rows where child is also a parent
+  rename(level_1 = environment_id, level_2 = environment_parent)
+
+# Build the hierarchy iteratively
+for (i in 3:100) {
+  # Create the dynamic column name for the join
+  previous_level <- paste0("level_", i - 1)
+  current_level <- paste0("level_", i)
+  
+  # Perform the join
+  hierarchy <- hierarchy %>%
+    left_join(relationships, by = setNames("environment_id", previous_level)) %>%
+    rename(!!current_level := environment_parent)
+  
+  # Stop if all new parent columns are NA
+  if (all(is.na(hierarchy[[current_level]]))) {
+    hierarchy <- hierarchy%>%select(-all_of(current_level))
+    break}
+}
+
+
+#now place the environment in its parents starting setting level_1 to be the id of the current environment
+temp.output$level_1 <- temp.output$environment_id
+
+
+
+
+  return(left_join(temp.output,hierarchy))  
 }
 
 ##generic function to arrange input for analysis. Based on methods it will call another function####
@@ -646,26 +686,27 @@ run.mll<-function(covars,
   logl <- switch(levels,
                "L1" = {
                   data = data.filtered;
-                  logl = function(beta1 = 1.){
-                      -sum((data$cases*log(1-exp(-(data$dt*beta1*data$i1/data$n1)))-
-                            (data$s-data$cases)*(data$dt*beta1*data$i1/data$n1)))}
+                  logl = function(log_beta1 = 0){
+                    ll <- -sum((data$cases*log(1-exp(-(data$dt*exp(log_beta1)*data$i1/data$n1)))-
+                            (data$s-data$cases)*(data$dt*exp(log_beta1)*data$i1/data$n1)))
+                    return(ll)}
                   },
                 "L2" = {
                   data = data.filtered;
-                  logl = function(beta1 =1, beta2=0.1){
-                    -sum((data$cases*log(1-exp(-(beta1*data$i1/data$n1 + 
-                                               beta2*data$i2/data$n2)*data$dt))-
-                           (data$s-data$cases)*(beta1*data$i1/data$n1 + beta2*data$i2/data$n2)*data$dt))}}
+                  logl = function(log_beta1 =0, log_beta2=-1){
+                    -sum((data$cases*log(1-exp(-(exp(log_beta1)*data$i1/data$n1 + 
+                                                   exp(log_beta2)*data$i2/data$n2)*data$dt))-
+                           (data$s-data$cases)*(exp(log_beta1)*data$i1/data$n1 + exp(log_beta2)*data$i2/data$n2)*data$dt))}}
                 ,
                 "L3" = {
                   data = data.filtered;
-                  logl = function(beta1=1,beta2=.1,beta3=0.01){
-                    -sum((data$cases*log(1-exp((beta1*data$i1/data$n1 + 
-                                               beta2*data$i2/data$n2+
-                                               beta3*data$i3/data$n3)*data$dt))+
-                            (data$s-data$cases)*(beta1*data$i1/data$n1 + 
-                                     beta2*data$i2/data$n2+
-                                     beta3*data$i3/data$n3)*data$dt))}}
+                  logl = function(log_beta1=0,log_beta2=-1,log_beta3=-2){
+                    -sum((data$cases*log(1-exp((exp(log_beta1)*data$i1/data$n1 + 
+                                                  exp(log_beta2)*data$i2/data$n2+
+                                                  exp(log_beta3)*data$i3/data$n3)*data$dt))+
+                            (data$s-data$cases)*(exp(log_beta1)*data$i1/data$n1 + 
+                                                   exp(log_beta2)*data$i2/data$n2+
+                                                   exp(log_beta3)*data$i3/data$n3)*data$dt))}}
                 
                 )
   #fit and return result

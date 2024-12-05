@@ -27,7 +27,7 @@ library("tidyverse")
 
 #source required SUMMERFAIR files
 source("LocalAlgorithm.R")
-
+source("ExperimentalPlots.R")
 ``` 
 
 # Introduction
@@ -79,7 +79,8 @@ input.data.events <- host.event.data%>%filter(measurement_type == "esbl_count")
 
 #When only using host data for measurements use function join_host_environment
 input.data.events <- join_host_environment(input.data.events, 
-                                           environment.event.data)
+                                           environment.event.data, 
+                                           environment.data)
 
 #add additional data of the hosts
 input.data.events <- left_join(x = input.data.events,
@@ -90,10 +91,14 @@ head(input.data.events)
 input.data.events$treatment_type <- "control"
 input.data.events <- input.data.events%>%mutate(.by = host_id,
                                                 inoculation_type = sample(c("S","I"),1)) 
+#in this particular case the group number is the round
+input.data.events$round <- input.data.events$host_groupNumber
+
 #apply rule and arrange data
 arranged.data <- arrangeData(input.data.events,
                              eval(str2expression(paste0("rule.",settings$rule_name))), 
-                             var.id = c("host_groupNumber"))
+                             var.id = c("measurement_quantity"),
+                             resolution = "hour")
 
 ```
 
@@ -105,13 +110,32 @@ Due to the high sensitivity of the RNA detection method, which may also detect l
 
 ## Visualize data
 ```{r}
-transform.data.for.plot(arranged.data[[2]])
+plotable.data <- transform.data.for.plot(arranged.data[[2]]);
+
+input.plot(plotable.data)$plot[[1]]
 ``` 
 
 
 # Analysis
+Description of the analysis.
+
+
+```{r}
+data.to.analyse <- arranged.data[[1]]$arranged.data
+#remove times without susceptibles or infecteds
+data.to.analyse <- data.to.analyse%>%filter(s*(i1+i2+i2)>0)
+
+#run the analysis
+fit <- run.mll(NULL, data.to.analyse)
+```
+
 
 # Results
+```{r}
+summary(fit)
+
+```
+
 
 # Conclusion
 

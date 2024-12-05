@@ -11,6 +11,19 @@ data#########################################################
 
 library(ggplot2)
 library(reshape2)
+#function 
+str_to_dechours <- function(t){
+  if(is.na(t) || is.null(t)||trimws(t) =="") return(0);
+  time_parts <- strsplit(t, ":")[[1]]
+  
+  # Convert each part to numeric and calculate decimal hours
+  hours <- as.numeric(time_parts[1])
+  if(length(time_parts)>=2){minutes <- as.numeric(time_parts[2])}else{ minutes =0}
+  if(length(time_parts)>=3){seconds <- as.numeric(time_parts[3])}else{seconds = 0}
+  
+  # Convert to decimal hours
+  hours + (minutes / 60) + (seconds / 3600)
+}
 
 
 
@@ -43,31 +56,44 @@ raw.plot <-function(raw.data){
 ###################################
 
 transform.data.for.plot <- function(sirdata){
-  out <-data.frame(host_id =c(),
-                   inoculation_type=c(),
-                   group =c(),
-                   treatment=c(), 
-                   lastneg = c(),
-                   firstpos=c(),
-                   lastpos=c(),
-                   firstrec=c(),
-                   lastObs=c())
-  #iterate data
+  out <- NULL;
+ 
+   #iterate data
   for(i in unique(sirdata$host_id))
   {
-          single.host.data <- sirdata%>%filter(host_id ==i);
-          out <- rbind(out,
+    #select the data of this host      
+    single.host.data <- sirdata%>%filter(host_id ==i);
+    
+    #determine last and first of each switch.  
+    single.entry<- 
                  data.frame(host_id = i,
                             inoculation_type = single.host.data[1,"inoculation_type"],
-                            group = paste0(single.host.data[1,"environment_id"]),
-                            treatment = single.host.data[1,"treatment"], 
-                            lastneg = max(0,max(single.host.data[single.host.data$sir == 0,]$times)),#select last negative time
-                            firstpos = max(0,min(single.host.data[single.host.data$sir == 2,]$times)),#select first positive time
-                            lastpos = max(0,max(single.host.data[single.host.data$sir == 2,]$times)),#select last positive time
-                            firstrec = max(0,min(single.host.data[single.host.data$sir == 3,]$times)),#select first recovered time
-                            lastObs = max(single.host.data$times)) #last observation
-    )
+                            group = single.host.data[1,"environment_id"],
+                            treatment = single.host.data[1,"treatment_type"])
+    #last negative sample
+    if(sum(single.host.data$sir == 0)>0){
+      single.entry$lastneg = max(0,max(single.host.data[single.host.data$sir == 0,]$times))#select last negative time
+    }else single.entry$lastneg = -Inf;
     
+    #first positive sample
+    if(sum(single.host.data$sir == 2)>0){
+      single.entry$firstpos = max(0,min(single.host.data[single.host.data$sir == 2,]$times))#select first positive time
+      single.entry$lastpos = max(0,max(single.host.data[single.host.data$sir == 2,]$times))#select last positive time
+    }else {
+      single.entry$firstpos = Inf; #it never happens
+      single.entry$lastpos = Inf;#it never happens
+    }
+    #last positive sample
+    if(sum(single.host.data$sir == 3)>0){
+      single.entry$firstrec = max(0,min(single.host.data[single.host.data$sir == 3,]$times))#select first recovered time
+      }else single.entry$firstrec= Inf; #it never happens
+  
+    #last observation
+    single.entry$lastObs = max(single.host.data$times) #last observation
+                            
+                            
+    
+    out <- rbind(out,single.entry)
   }
   return(out)
 }
@@ -77,7 +103,8 @@ transform.data.for.plot <- function(sirdata){
 input.plot <- function(in.data, 
                        color_scheme = c("#999999","#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"), 
                        period.labels = c("Negative", 'Neg->Pos', 'Positive', 'Pos-> Neg',"Negative again"),
-                       sampling.times = NULL){
+                       sampling.times = NULL,
+                       time.dimension = 24){
   plot.data <-in.data[,c(1:4)];#only select indicators
     #replace all negative numbers for lastObs
   in.data$lastneg[in.data$lastneg<0 ]<- in.data$lastObs[in.data$lastneg<0 ]
@@ -98,7 +125,7 @@ input.plot <- function(in.data,
 
   
   #replace real time with interval
-  if(!is.null(sampling.times)){
+  if(is.null(sampling.times)){
   plot.data$neg1 <- in.data$lastneg;
   plot.data$negpos <- in.data$firstpos - in.data$lastneg;
   plot.data$pos <-in.data$lastpos - in.data$firstpos;
@@ -113,15 +140,18 @@ input.plot <- function(in.data,
     plot.data$neg2 <-  in.data$lastObs-in.data$firstrec;
   }
   
+  #scale times
+  plot.data[,5:9 ]<- plot.data[,5:9 ]/time.dimension;
   
   #melt down
-  plot.data <- melt(plot.data,id = c("host_id","inoculationStatus","group","treatment"))
+  plot.data <- melt(plot.data,id = c("host_id","inoculation_type","group","treatment"))
   
  #create plots per treatment
   plots <- list();
   for(i in unique(plot.data$treatment)){
-    y_breaks <- if(is.null(sampling.times)){c(0:max(plot.data$value[!is.infinite(plot.data$value)]))}else{sampling.times}
+  #  y_breaks <- if(is.null(sampling.times)){seq(0,max(plot.data$value[!is.infinite(plot.data$value)]),max(plot.data$value[!is.infinite(plot.data$value)])/24)}else{sampling.times}
   plots[[length(plots)+1]]<- ggplot(data = plot.data[plot.data$treatment == i,]%>%
+                                      filter(is.finite(plot.data$value))%>%
                    arrange(group)%>%
                    arrange(desc(host_id)))+
     geom_bar(aes(y = value, x = as.factor(host_id), 
@@ -132,9 +162,10 @@ input.plot <- function(in.data,
                      labels = period.labels[c(5,4,3,2,1)])+ylab("Days post challenge")+
     xlab("host ID")+
     ggtitle(i)+
-    scale_y_continuous(breaks = y_breaks )+
+    scale_y_continuous(breaks = if(!is.null(sampling.times)){sampling.times}else{waiver()},
+                       n.breaks = if(!is.null(sampling.times)){NULL}else{10}  )+
     scale_x_discrete(limits = rev)+
-          if(length(unique(plot.data$group))>1){facet_grid(group + inoculationStatus ~. , scales = "free_y")}
+          if(length(unique(plot.data$group))>1){facet_grid(group + inoculation_type ~ . , scales = "free_y")}
   }
   
   return(list(plots = plots, data = plot.data))
