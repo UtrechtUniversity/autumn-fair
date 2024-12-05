@@ -1,0 +1,100 @@
+{
+    "n_rows": 100,
+    "n_columns": 4,
+    "provenance": {
+        "created by": {
+            "name": "metasyn",
+            "version": "1.0.2.dev29+gbe1aa22"
+        },
+        "creation time": "2024-11-07T13:17:22.687251"
+    },
+    "vars": [
+        {
+            "name": "environment_id",
+            "type": "string",
+            "dtype": "String",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.regex",
+                "version": "2.0",
+                "provenance": "builtin",
+                "class_name": "UniqueRegexDistribution",
+                "unique": true,
+                "parameters": {
+                    "regex_data": {
+                        "regex": "[a-z][A-Z][0-9]",
+                        "counts": [
+                            1,
+                            1,
+                            1,
+                            1
+                        ]
+                    }
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "environment_level",
+            "type": "discrete",
+            "dtype": "Int64",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 1,
+                    "upper": 3
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "environment_parent",
+            "type": "discrete",
+            "dtype": "Int64",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "environment_host_round",
+            "type": "discrete",
+            "dtype": "Int64",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 15
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        }
+    ]
+}

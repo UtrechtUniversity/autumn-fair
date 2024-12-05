@@ -1,0 +1,10 @@
+# General
+urls:           "https://"
+title:          "Project name"
+pi:             "Liam Kessler"
+operators:      "Liam Kessler","Emma Davison","Noah Hartford"
+start_date:     "YYYY/MM/DD"
+stop_data:      "YYYY/MM/DD"
+description:    "The experiment consists in ..."
+data_access:    "Public"
+license:        ""

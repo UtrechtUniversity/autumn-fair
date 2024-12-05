@@ -1,0 +1,311 @@
+---
+title: "Data Schema User Guide"
+author: "Stefano Rapisarda (RDM, Utrecht University Library)"
+date: 11/28/2024
+version: v1.0
+date-format: long
+toc: true
+number-sections: true
+execute:
+  echo: false
+format:
+  html:
+    html-table-processing: none   
+  pdf:
+    number-sections: true
+    colorlinks: true
+    geometry:
+      - left=10mm
+      - right=10mm
+---
+
+# Experiment Data Directory Structure
+
+The experiment directory structure contains datasets (stored in a `data` directory) and metadata.
+
+```
+experiment_name                
+├── metadata.txt                 
+├── _validation_schema.toml       
+├── data                          
+│   ├── environment.csv
+│   ├── environment_events.csv
+│   ├── hosts.csv
+│   └── host_events.csv
+```
+
+This directory structure is designed to organize experimental data in a clear and logical manner. Here's a breakdown of each component:
+
+## Root Directory: `experiment_name`
+
+The root directory is named after the specific experiment. This allows for easy identification and separation of different experiments.
+
+## Files in the Root Directory
+
+* The **metadata.txt** contains metadata about the experiment. The file contains keywords describing general information about the experiment. Metadata are organised by category (currently only the "General" category is present). In each category, information is provided in a `<keyword>: <value>` format, with keywords in lowercase characters. When multiple values are present, they can be separated by commas. String (words) values are in between double or single quotes (e.g. data_access: "Public").
+
+```
+# General
+urls:           "https://"
+title:          "Project name"
+pi:             "Liam Kessler"
+operators:      "Liam Kessler","Emma Davison","Noah Hartford"
+start_date:     "YYYY/MM/DD"
+stop_data:      "YYYY/MM/DD"
+description:    "The experiment consists in ..."
+data_access:    "Public"
+license:        ""
+```
+
+* The **\_validation\_schema.toml** file defines the schema for validating the data files. It contains column names, formats, values, etc. This files is supposed to be used as software input and should not be edited by researchers.
+
+## Data Subdirectory
+
+### `data/`
+
+This subdirectory contains all the actual data files from the experiment:
+
+*   The **hosts.csv** file is edited when host information is collected and when hosts die;
+*   The **host_events.csv** file is edited every time an event occur. An event can be either a measurement, an inoculation, or a treatment. For each event, the experiment operator must specify host id, event day and time, and all the information related to that specific event, leaving empty the fields related to the other two events;
+*   The **environment.csv** file is edited when environment information is collected at the beginning of the experiment;
+*   The **environment_events.csv** file is edited every time a host is relocated or a measurement about the environment parameters is peformed;
+
+## Benefits of this Structure
+
+This data structure organises static and dynamic information in different data files. Information about hosts and environment characteristics needs to be provided only once (usually before and at the beginning of the experiment) and it is stored in two separated files. Any kind of action of hosts or environments (e.g. measurements) is considered an event and it is stored in two different files for hosts and environments, respectively. Other general advantages of this structure include:
+
+1. **Separation of Concerns**: Metadata, schema, and actual data are kept separate;
+2. **Data Validation**: The presence of a validation schema allows for automated checking of data integrity;
+3. **Clarity**: The structure clearly separates environmental data from host-related data;
+4. **Scalability**: This structure can easily accommodate additional data files if needed;
+5. **Version Control Friendly**: This structure works well with version control systems, allowing for easy tracking of changes over time;
+
+
+# Field description
+
+## Hosts
+
+| Name | Description | Type |Constraints | Example Values |
+|------|-------------|------|-------------|---------------|
+| host_id | Host unique identifier | string |  - | G1_456, TK34 |
+| host_groupNumber | Integer indicating the group of the host | integer | Must be an integer number | 1, 42 |
+| host_round | The round of the experiment in which the host is investiaged | string | - | - |
+| host_sex | Sex of the host (F/M) | string |either M (male) or F (female) | M, F |
+| host_age | Age of the host at the beginning of the experiment | integer |  Must be an integer number | - | - | 
+| host_death | Date of death of the host from the beginning of the experiment | integer |  Must be an integer number | - |
+| host_age_unit | The unit in which the age and death of the host is measured | string |  - | H,D,W,M|
+| host_species | Species of the host | string | Single word or acronym | - |
+| host_breed | Breed of the host within the species | string | Single word or acronym | - |
+
+
+## Host Events
+
+| Name | Description | Type | Constraints | Example Values |
+|------|-------------|------|-------------|---------------|
+| host_id | Host unique identifier | string | - | - | G1_456, TK34 |
+| event_day | Date of the event in days after the beginning of the experiment | integer | day | It must be an integer number | 1, 42 |
+| event_time | Time of the event (local time) | string | - | Hour and minutes specified in the format HH:MM | 14:23, 00:01 |
+| event_type | Type of event | string | - | Single letter, either M (measurement), I (Inoculation), or T (treatment) | - |
+| measurement_type | Measurement type | string | - | - | - |
+| measurement_quantity | Measured quantity | float | - | - | - |
+| measurement_outcome | Measurement outcome of a certain measurement type | integer | - | Binary field, there must be only two possible outcomes: positive (true) and negative (false) | 1, 0 |
+| measurement_unit | Measured quantity unit | string | - | - | - |
+| inoculation_type | Inoculation type | string | - | - | - |
+| inoculation_pathogen | Inoculation pathogen | string | - | - | - |
+| inoculation_dose | Amount of inoculated pathogen | float | - | - | - |
+| inoculation_unit | Inoculation dose unit | string | - | - | - |
+| inoculation_outcome | Inoculation outcome of a certain inoculation type | integer | - | Binary field, there must be only two possible outcomes: positive (true) and negative (false) | 1, 0 |
+| treatment_type | Treatment type | string | - | - | - |
+| treatment_dose | Amount of a substance administrated in the treatment | float | - | - | - |
+| treatment_unit | Treatment dose unit | string | - | - | - |
+| treatment_outcome | Treatment outcome of a certain treatment type | integer | - | Binary field, there must be only two possible outcomes: positive (true) and negative (false) | 1, 0 |
+
+## Environment
+
+| Name | Description | Type | Constraints | Example Values |
+|------|-------------|------|-------------|---------------|
+| environment_level | Environment level | integer | Must be an integer number | 1, 2, 42 |
+| environment_id | Environment unique identifier | string | - | E1_H4, H42, HTK23 |
+| environment_parent | ID of a parent environment | string | It must be an ID already existing in the current table | E1_H4, H42, HTK23 |
+
+
+## Environment Events
+
+| Name | Description | Type | Constraints | Example Values |
+|------|-------------|------|-------------|---------------|
+| host_id | Host unique identifier | string | - | G1_456, TK34 |
+| environment_id | Environment unique identifier | string | - | E1_H4, H42, HTK23 |
+| event_day | Date of the event in days after the beginning of the experiment | integer | It must be an integer number | 1, 42 |
+| event_time | Time of the event (local time) | string | Hour and minutes specified in the format HH:MM | 14:23, 00:01 |
+| event_type | Type of event | string | Single letter, either M (measurement) or A (allocation) | - |
+| measurement_type | Measurement type | string | - | - |
+| measurement_quantity | Measured quantity | float | - | - |
+| measurement_unit | Measured quantity unit | string | - | - |
+| measurement_outcome | Measurement outcome of a certain measurement type | integer | Binary field, there must be only two possible outcomes: positive (true) and negative (false) | 1, 0 |
+
+# Dataset relations
+
+The `host.csv`, `host_events.csv`, and the `environment_events.csv` files contain a `host_id` column. When analysing the data, researchers can extract information related to a single host selecting data by host ID. For example:
+
+TASK: Checking a certain measurement outcome for hosts belonging to the same host round.
+
+- select host IDs belonging to the same round from the `host.csv` file;
+- extract measurement outcome and time from `host_events.csv` filtering by the host IDs previously selected and by measurement type.
+
+A similar relation exists between the `environment.csv` and the `environment_events.csv`, both sharing the `environment_id` column. 
+
+# Workflow description
+
+## Before the experiment
+
+Before the experiment, reasearchers need to set up the data directory as shown in session 1. The researchers also need to fill the `metadata.txt` file with all the relevant information about the experiment. 
+
+As soon as the experiment facilities for the hosts are set up, the reaserchers can fill the `environment.csv` file with all the information about the hosting environments. This is the only time that this file will be edited.
+
+## At the beginning of the experiment
+
+At the beginning of the experiment, when the hosts are delivered to the experiment facilities, the researchers need to fill the `host.csv` and `environment_event.csv` files. `host.csv` will not need further editing, excluding the case when a host dies before the end of the experiment. `environment_event.csv` will only be edited when a host is relocated or a measurement is performed.
+
+## During the experiment
+
+During the experiment, any measurement, treatment, or inoculation will be recorded in a different row of the "host_events.csv" file. 
+Every host re-allocation or environment measurement will be recorded in a different row of the "environment_event.csv" file.
+
+# Data Management guidelines
+
+## Choosing host and environment IDs
+
+Unique identifier (ID) is the field that distinguishes each entry or record in the database from all others. In this schema the researchers need to decide the format for host and environment IDs. When choosing the format of an ID, keep in mind the following:
+
+- Fixed or variable lengths: variable lengths ID have less constrain than fixed length IDs. However, fixed length IDs are more machine-readable and easier to validate. When choosing a fixed length ID you need to consider the maximum number it can represent. For example, an ID with format "A_0", where A indicates any alphabetical capital character and 0 any integer, can represent 26 x 10 = 260 elements;
+- Interoperability and Compatibility: try to avoid characters (including white spaces) that may cause issues in different systems;
+- Human Readability: consider to use separators and both numeric and alphanumeric characterers. Only numeric IDs are harder to read;
+- Consistency with other rows: if you use IDs containing information somehow related to other columns (for example host groups, parent environment, species/sex, etc), be sure that the information is coherent with the corresponding value in those columns. 
+
+## Variable format
+
+Several string variables of the `.csv` files do not have a specific format, this means that researchers are free to adopt their preferred format. This is the case, for example, of `inoculation_pathogen` and `treatment_type`. When choosing a format for such variables, researchers should keep in mind the following:
+
+- Once a format has been chosen, be consistent with it;
+- Before defining a new format, check if there are existing or standard formats in your research community for that variable;
+- When choosing or adopting a format, especially if you decide to use acronyms, include the description of that format in the `metadata.txt` file. You can create a new category and provide constraints, example values, and eventually references for the chosen format.
+
+## Data from different experiments
+
+It is a good practice to separate different experiment data in different directories, with each experiment having its own directory containing metadata and data as described in session 1. A single experiment may consist of different waves with different batches of hosts and environments. Researchers can use the column `host_round` in the `hosts.csv` file to take this into account. New environment and environment events can simply be added to the `environment.csv` and `environment_events.csv` file.
+
+
+# Usage example
+
+Let's consider a database with the following columns:
+
+```
+  0) house            1) pen              2) house_pen      
+  3) treatment        4) animalnr_col     5) I, S1, S2      
+  6) weight_d0        7) weight_d21       8) FC             
+  9) sexe            10) bootsock/swab   11) BS0            
+ 12) BS0_date        13) BS0_pathogen    14) BS1            
+ 15) BS1_date        16) BS1_pathogen    17) BS2            
+ 18) BS2_date        19) BS2_pathogen    20) BS3            
+ 21) BS3_date        22) BS3_pathogen    23) BS4            
+ 24) BS4_date        25) BS4_pathogen    26) status 
+```
+
+This dataset contains information about housing (cols 1-3), animals (animal ID, sex, weight), and a series of measurements perfomed in different days after the experiment (weight, bootsock). 
+
+This dataset is in wide form, this means that measurements perfomed at different times are stored in different columns of the same row. Here there is an example of a single row of data with this structure.
+
+|   house | pen   | house_pen   | treatment   | animalnr_col   | I, S1, S2   |
+|--------:|:------|:------------|:------------|:---------------|:------------|
+|       3 | S7    | H3_S7       | CE          | 3_Gr           | S2          |
+
+*continued*
+
+|   weight_d0 |   weight_d21 |    FC | sexe   | bootsock/swab   |   BS0 |
+|------------:|-------------:|------:|:-------|:----------------|------:|
+|       41.44 |          764 | 10162 | M      | bootstock       |   nan |
+
+*continued*
+
+|   BS0_date |   BS0_pathogen |   BS1 |   BS1_date |   BS1_pathogen |   BS2 |
+|-----------:|---------------:|------:|-----------:|---------------:|------:|
+|         -1 |            nan |   nan |          2 |            nan |   nan |
+
+*continued*
+
+|   BS2_date |   BS2_pathogen |   BS3 |   BS3_date |   BS3_pathogen |   BS4 |
+|-----------:|---------------:|------:|-----------:|---------------:|------:|
+|          7 |            nan |   nan |         14 |            nan |   nan |
+
+*continued*
+
+|   BS4_date |   BS4_pathogen |   status |
+|-----------:|---------------:|---------:|
+|         21 |            nan |        1 |
+
+We will convert this line of data in the new format splitting the information related to host, host events (measurements in this case), environment, and environment events. 
+
+**host.csv**
+
+The "host.csv" file will be populated by a single row. The only information available is sex.
+
+| host_id   | host_groupNumber   | host_sex   | host_age   |
+|:----------|:-------------------|:-----------|:-----------|
+| 3_Ge      |          -         | F          |      -     |
+
+*continued*
+
+| host_death   | host_age_unit  | host_species   | host_breed   |
+|:-------------|:---------------|:---------------|:-------------|
+|      -       |           -    |           -    |         -    | 
+
+
+
+**environment.csv**
+
+In the wide format, the environment of the animal is specified by the columns 0-3, i.e. "house", "pen", and "house_pen". In the new format, the "environment.csv" file will be populated by two rows, one corresponding to the house, H3, and one to the pen S7. The relation between these two environment is specified in the column "environment_parent", the pen S7 has H3 as a parent (i.e. S7 is contained in H3). 
+
+|  environment_id  |   environment_level | environment_parent   |
+|:-----------------|--------------------:|:---------------------|
+| H1               |                   1 |                      |
+| S1               |                   1 | H1                   |
+
+
+
+**environment_events.csv**
+
+In this experiment, there are no environment measurements. The only event to be reported will then be the allocation of the host in the environment at the beginning of the experiment. In the wide format, allocation day and time are not specified, so these will be assumed to be equal to the beginning day and time of the experiment, respectively.
+
+| host_id |  environment_id  | event_day | event_time | event_type | ... |
+|:--------|-----------------:|:---------:|:----------:|:----------:|:----|
+| 3_Ge    |  S1              | 0         | -          | A          | ... |
+
+
+
+**host_events.csv**
+
+The wide dataframe contains two weight measurements and 5 bootsock measurements. The new format represents data in the long format, this means that each row corresponds to a single measurement. The day of the measurement is specified in the "event_day" column. In the wide format, the time of the measurement is not specified. Weight measurements consist in a value and a unit. Bootsock measurements do not have a value, but an outcome (either positive or negative). As these rows contain data about measurements, all the columns related to inoculation and treatment are left empty. 
+
+| host_id   |   event_day | event_time   | event_type   | measurement_type   |
+|:----------|------------:|:-------------|:-------------|:-------------------|
+| 3_Ge      |           0 | -       | measurement  | weight             |
+| 3_Ge      |          21 | -       | measurement  | weight             |
+| 3_Ge      |           0 | -        | measurement  | BS                 |
+| 3_Ge      |           2 | -       | measurement  | BS                 |
+| 3_Ge      |           7 | -        | measurement  | BS                 |
+| 3_Ge      |          14 | -      | measurement  | BS                 |
+| 3_Ge      |          21 | -       | measurement  | BS                 |
+
+*continued*
+
+| measurement_outcome   | measurement_quantity   | measurement_unit   | ... |
+|:----------------------|:-----------------------|:-------------------| --- |
+|                       | 35.72                  | gr                 | ... |
+|                       | 732.0                  | gr                 | ... |
+| negative              |                        |                    | ... |
+| negative              |                        |                    | ... |
+| negative              |                        |                    | ... |
+| negative              |                        |                    | ... |
+| negative              |                        |                    | ... |
+
+

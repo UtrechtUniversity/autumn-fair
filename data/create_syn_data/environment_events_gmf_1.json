@@ -1,0 +1,203 @@
+{
+    "n_rows": 100,
+    "n_columns": 8,
+    "provenance": {
+        "created by": {
+            "name": "metasyn",
+            "version": "1.0.2.dev29+gbe1aa22"
+        },
+        "creation time": "2024-11-07T13:26:04.642007"
+    },
+    "vars": [
+        {
+            "name": "environment_id",
+            "type": "string",
+            "dtype": "String",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.regex",
+                "version": "2.0",
+                "provenance": "builtin",
+                "class_name": "UniqueRegexDistribution",
+                "unique": true,
+                "parameters": {
+                    "regex_data": {
+                        "regex": "[a-z][A-Z][0-9]",
+                        "counts": [
+                            1,
+                            1,
+                            1,
+                            1
+                        ]
+                    }
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "host_id",
+            "type": "discrete",
+            "dtype": "Int64",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 100
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "event_day",
+            "type": "discrete",
+            "dtype": "Int64",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "DiscreteUniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 15
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "event_time",
+            "type": "string",
+            "dtype": "String",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.regex",
+                "version": "2.0",
+                "provenance": "builtin",
+                "class_name": "RegexDistribution",
+                "unique": false,
+                "parameters": {
+                    "regex_data": {
+                        "regex": "[1-2][0-9]:[0-5][09]",
+                        "counts": [
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1
+                        ]
+                    }
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "event_type",
+            "type": "categorical",
+            "dtype": "Categorical",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.multinoulli",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "MultinoulliDistribution",
+                "unique": false,
+                "parameters": {
+                    "labels": [
+                        "measurement",
+                        "allocation"
+                    ],
+                    "probs": [
+                        0.5,
+                        0.5
+                    ]
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "measurement_type",
+            "type": "string",
+            "dtype": "String",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.faker",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "FakerDistribution",
+                "unique": false,
+                "parameters": {
+                    "faker_type": "name",
+                    "locale": "en_US"
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "measurement_unit",
+            "type": "categorical",
+            "dtype": "Categorical",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.multinoulli",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "MultinoulliDistribution",
+                "unique": false,
+                "parameters": {
+                    "labels": [
+                        "ml",
+                        "g",
+                        "mg"
+                    ],
+                    "probs": [
+                        0.3,
+                        0.3,
+                        0.4
+                    ]
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        },
+        {
+            "name": "measurement_quantity",
+            "type": "continuous",
+            "dtype": "Float64",
+            "prop_missing": 0,
+            "distribution": {
+                "implements": "core.uniform",
+                "version": "1.0",
+                "provenance": "builtin",
+                "class_name": "UniformDistribution",
+                "unique": false,
+                "parameters": {
+                    "lower": 0,
+                    "upper": 15
+                }
+            },
+            "creation_method": {
+                "created_by": "user"
+            }
+        }
+    ]
+}
