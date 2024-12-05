@@ -1,0 +1,9 @@
+﻿environment_id;environment_level;environment_parent;environment_host_round
+1;1;1;1
+2;1;2;1
+3;1;3;1
+4;3;3;1
+5;1;2;1
+6;1;1;1
+7;2;5;1
+8;3;1;1

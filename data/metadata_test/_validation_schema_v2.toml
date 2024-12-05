@@ -1,19 +1,22 @@
 metadata_keys = ["type","format","values"]
 
 [hosts]
-host_id.type = "string"
+host_id.type = ["string", "integer"]
 host_groupNumber.type = "integer"
-host_round.type = "string"
 host_sex.type = "string"
+host_sex.format = "A"
 host_sex.values = ["M","F"]
 host_age.type = "integer"
 host_death.type = "integer"
-host_age_unit.type = "string"
 host_species.type = "string"
 host_breed.type = "string"
+host_age_unit.type = "string" 
+host_age_unit.values = ["H","D","W","M","Y"]
+host_age_unit.format = "A"
+host_round.type = "integer"
 
 [events]
-host_id.type = "string"
+host_id.type = ["string", "integer"]
 event_day.type = "integer"
 event_time.type = "string"
 event_time.format = "HH:MM"
@@ -21,36 +24,49 @@ event_type.type = "string"
 event_type.values = ["M","I","T"]
 measurement_type.type = "string"
 measurement_quantity.type = "float"
-measurement_outcome.type = "integer"
-measurement_outcome.values = [0,1]
 measurement_unit.type = "string"
 inoculation_type.type = "string"
 inoculation_pathogen.type = "string"
 inoculation_dose.type = "float"
 inoculation_unit.type = "string"
-inoculation_outcome.type = "integer"
-inoculation_outcome.values = [0,1]
 treatment_type.type = "string"
 treatment_dose.type = "float"
 treatment_unit.type = "string"
+measurement_outcome.type = "integer"
+measurement_outcome.values = [0,1]
 treatment_outcome.type = "integer"
-treatment_outcome.values = [0,1]
+treatment_outcome.values = ["0","1"]
+inoculation_outcome.type = "integer"
+inoculation_outcome.values = [0,1]
+
 
 [environment]
 environment_level.type = "integer"
-environment_id.type = "string"
-environment_parent.type = "string"
+environment_level.values = [1,2,3]
+environment_id.type = ["string", "integer"]
+environment_id.format = "A0_A0"
+environment_parent.type = "integer"
+environment_host_round.type = "integer"
 
 [environment_events]
-host_id.type = "string"
-environment_id.type = "string"
+host_id.type = ["string", "integer"]
+environment_id.type = ["string", "integer"]
+environment_id.format = "A0_A0"
 event_type.type = "string"
-event_type.values = ["M","A"]
+event_type.values = ["measurement","allocation"]
 event_day.type = "integer"
 event_time.type = "string"
 event_time.format = "HH:MM"
 measurement_type.type = "string"
 measurement_quantity.type = "float"
 measurement_unit.type = "string"
+
 measurement_outcome.type = "integer"
 measurement_outcome.values = [0,1]
+
+
+[column_dependencies]
+event = ["event_day", "event_time", "event_type"]
+measurement = ["measurement_type", "measurement_quantity", "measurement_unit","measurement_outcome"]
+inoculation = ["inoculation_type", "inoculation_pathogen", "inoculation_dose", "inoculation_unit","inoculation_outcome"]
+treatment = ["treatment_type", "treatment_dose", "treatment_unit","treatment_outcome"]
